@@ -2,7 +2,7 @@
 Spotify Collaboration Automation Tool
 
 # MUST DO BEFORE RUNNING ###################################
-## 1. Install libraries
+## 1. Install libraries (commands used on Linux)
 
 pip install testresources
 
