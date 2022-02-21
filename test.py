@@ -116,10 +116,87 @@ def test_global5():
       if count > 5:
         break
 
+# authenticates using client_id and client_secret
+# display related artists from searched artist (uses user input)
+def test_related_artists(artist: str):
+  cid = os.environ['SPOTIPY_CLIENT_ID']
+  secret = os.environ['SPOTIPY_CLIENT_SECRET']
+  
+  # Authentication
+  client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+  
+  sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+
+  redo = 0
+
+  while redo == 0:
+    adict = {}
+
+    # search for artist
+    search_results = sp.search(q="artist:" + artist, type="artist")
+
+    for x in search_results:
+      for artist in (search_results[x]["items"]):
+        name = (artist["name"])
+        uri = (artist["uri"])
+        adict[name] = uri
+
+    alist_counter = 0
+    for x in adict:
+      print("(" + str(alist_counter) + ")  " + x)
+      alist_counter += 1
+    
+    # check if results are valid
+    ui = -2
+    while ui == -2 or ui > len(adict):
+      ui = int(input("Which result matches? (-1 if not found):  "))
+    
+    # if valid, exit
+    # if not valid, then redo
+    if ui != -1:
+      redo = 1
+    elif ui == -1:
+      artist = str(input("What artist do you want to search for?  "))
+  
+  # obtain artist from search result through dict -> list -> key,value conversion
+  temp_list = list(adict)
+  key = temp_list[ui]
+  artist_uri = adict[key]
+
+  slist = []
+
+  # display related artists to searched artist
+  similar_artist = sp.artist_related_artists(artist_uri)
+  for x in similar_artist["artists"]:
+    slist.append("  " + x["name"])
+  
+  # Printing
+  if DEBUG_print:
+    print("Artists similar to " + key + ": ")
+    for x in slist:
+      print(x)
+
+# prints testing menu
+def test_print_menu():
+  string = """
+  ############ TESTING MENU ############
+  ##### 1. Test printing global 5 ######
+  ##### 2. Search for related artists ##
+  ##### 3. Exit ########################
+  """
+  print(string)
+
 # Main #####################################################
 ############################################################
 if __name__ == "__main__":
-  test_global5()
+  test_print_menu()
+  i = 0
+  while i < 1 or i > 3:
+    i = int(input("Input your selection: "))
+  if i == 1:
+    test_global5()
+  elif i == 2:
+    test_related_artists(str(input("What artist do you want to search for?  ")))
 
 
 # EOF ######################################################
