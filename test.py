@@ -128,9 +128,9 @@ def test_related_artists(artist: str):
   sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 
   redo = 0
-
+  adict = {}
   while redo == 0:
-    adict = {}
+    adict.clear()
 
     # search for artist
     search_results = sp.search(q="artist:" + artist, type="artist")
@@ -139,7 +139,8 @@ def test_related_artists(artist: str):
       for artist in (search_results[x]["items"]):
         name = (artist["name"])
         uri = (artist["uri"])
-        adict[name] = uri
+        if name not in adict:
+          adict[name] = uri
 
     alist_counter = 0
     for x in adict:
@@ -167,12 +168,19 @@ def test_related_artists(artist: str):
 
   # display related artists to searched artist
   similar_artist = sp.artist_related_artists(artist_uri)
+  retrieve_err_count = 0
+  while len(similar_artist["artists"]) == 0 and retrieve_err_count < 10:
+    similar_artist = sp.artist_related_artists(artist_uri)
+    retrieve_err_count += 1
+
   for x in similar_artist["artists"]:
     slist.append("  " + x["name"])
   
   # Printing
   if DEBUG_print:
     print("Artists similar to " + key + ": ")
+    if len(slist) == 0:
+      print("  <ERROR no similar artists found>")
     for x in slist:
       print(x)
 
@@ -192,7 +200,10 @@ if __name__ == "__main__":
   test_print_menu()
   i = 0
   while i < 1 or i > 3:
-    i = int(input("Input your selection: "))
+    try:
+      i = int(input("Input your selection: "))
+    except:
+      i = int(input("Input your selection: "))
   if i == 1:
     test_global5()
   elif i == 2:
