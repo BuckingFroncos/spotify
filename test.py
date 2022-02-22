@@ -150,7 +150,10 @@ def test_related_artists(artist: str):
     # check if results are valid
     ui = -2
     while ui == -2 or ui > len(adict):
-      ui = int(input("Which result matches? (-1 if not found):  "))
+      try:
+        ui = int(input("Which result matches? (-1 if not found):  "))
+      except:
+        continue
     
     # if valid, exit
     # if not valid, then redo
@@ -203,7 +206,7 @@ if __name__ == "__main__":
     try:
       i = int(input("Input your selection: "))
     except:
-      i = int(input("Input your selection: "))
+      continue
   if i == 1:
     test_global5()
   elif i == 2:
