@@ -1,0 +1,40 @@
+body {
+    background-color: #000;
+    margin: 0;
+    
+}
+
+h1 {
+    text-align: center;
+    color: #00aa11;
+    font-size: 7vw;
+}
+
+button {
+    font-size: 1vw;
+    font-weight: 200;
+    text-align: center;
+    display: block;
+    padding: 3vh;
+    margin: auto;
+    color: #00aa11;
+    background-color: #424242;
+    width: 20vw;
+    box-shadow: 0.1vw 0.1vw #aaa;
+}
+
+button:hover {
+    color: #FFF;
+}
+
+a {
+    text-decoration: none;
+}
+
+#searchbar {
+    margin: auto;
+}
+
+#submission {
+    margin: auto;
+}
