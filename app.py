@@ -15,7 +15,7 @@ def test():
 
 
 @app.route('/profile/')
-def userProf:
+def userProf():
     return "User Profile Here"
 
 
