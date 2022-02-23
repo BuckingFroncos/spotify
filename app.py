@@ -19,7 +19,7 @@ def userProf():
     return "User Profile Here"
 
 @app.route('/settings/')
-def userProf():
+def settings():
     return "Settings Here"
 
 
