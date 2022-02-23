@@ -18,6 +18,10 @@ def test():
 def userProf():
     return "User Profile Here"
 
+@app.route('/settings/')
+def userProf():
+    return "Settings Here"
+
 
 if __name__ == "__main__":
     app.run(debug=True) # Debug=True, allows us to see the specific errors of the application
