@@ -14,5 +14,10 @@ def test():
     return render_template('artists.html')
 
 
+@app.route('/profile/')
+def userProf:
+    return "User Profile Here"
+
+
 if __name__ == "__main__":
     app.run(debug=True) # Debug=True, allows us to see the specific errors of the application
