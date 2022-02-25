@@ -31,6 +31,10 @@ def urlgrabber():
         str += x + "<br>"
     return "Returning all urls:<br>" + str
 
+@app.route('/searching/')
+def search():
+    return "When users search songs. This page will provide the result"
+
 
 if __name__ == "__main__":
     app.run(debug=True) # Debug=True, allows us to see the specific errors of the application
