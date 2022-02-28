@@ -1,32 +1,15 @@
-import './App.css';
-import React, {useState, useEffect} from 'react';
-//import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import './App.css'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import Home from './pages/Home'
 
 function App() {
-  const [data, setData] = useState ([{}])
-
-  useEffect(() => {
-    fetch("/test").then(
-      res => res.json()
-    ).then(
-      data => {
-        setData(data)
-        console.log(data)
-      }
-    )
-  }, [])
-
-  return (
-    <div>
-      {(typeof data.members === 'undefined') ? (
-        <p>Loading...</p>
-      ) : (
-          data.members.map((member, i) => (
-              <p key={i}>{member}</p>
-          ))
-      )}
-    </div>
-  );
+  return(
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" component={Home}/>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App;
