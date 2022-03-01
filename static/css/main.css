@@ -38,3 +38,16 @@ a {
 #submission {
     margin: auto;
 }
+
+.recipe-images {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.item {
+    width: 35vw;
+    margin: 10px;
+}
