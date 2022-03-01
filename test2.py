@@ -6,7 +6,7 @@
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-from secrets import *
+from secretCredentials import *
 
 # DEBUG ####################################################
 ############################################################
