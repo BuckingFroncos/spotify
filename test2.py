@@ -112,6 +112,7 @@ def test2b():
             if count > 5:
                 break
 
+# search for related artist given an artist
 def test2c(artist: str):
     client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
@@ -177,6 +178,64 @@ def test2c(artist: str):
         for x in slist:
             print(x)
 
+# search for artists/related artists via genre
+def test2d(genre: str):
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    redo = 0
+    adict = {}
+    while redo == 0:
+        adict.clear()
+
+        # search by genre
+        search_results = sp.search(q="genre:" + genre, type="artist")
+
+        for x in search_results:
+            for artist in (search_results[x]["items"]):
+                name = (artist["name"])
+                uri = (artist["uri"])
+                if name not in adict:
+                    adict[name] = uri
+                    
+        if len(adict) == 0:
+            print_genre_seeds()
+            genre = str(input("What genre do you want to search for?  "))
+        else:
+            alist_counter = 1
+            for x in adict:
+                print(str(alist_counter) + ". " + x)
+                alist_counter += 1
+            redo = 1
+
+# search for top tracks via year
+def test2e(year: str):
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    redo = 0
+    adict = {}
+    adict.clear()
+
+    # search by year
+    search_results = sp.search(q="year:" + year, type="track")
+
+    print("Top tracks of " + year)
+
+    for x in search_results:
+        for artist in (search_results[x]["items"]):
+            name = (artist["name"])
+            uri = (artist["uri"])
+            if name not in adict:
+                adict[name] = uri
+                
+
+    alist_counter = 0
+    for x in adict:
+        print("(" + str(alist_counter) + ")  " + x)
+        alist_counter += 1
+        
+
 # prints testing menu
 def test_print_menu():
   string = """
@@ -184,9 +243,23 @@ def test_print_menu():
   ### 1. Test printing a playlist ######
   ### 2. Test printing global 5 ########
   ### 3. Search for related artists ####
-  ### 4. Exit ##########################
+  ### 4. Search by genre ###############
+  ### 5. Search by year ################
+  ### 6. Exit ##########################
   """
   print(string)
+
+# prints genre list
+def print_genre_seeds():
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    genre_list = sp.recommendation_genre_seeds()
+    genre_list_counter = 1
+    for genre in genre_list['genres']:
+        print(str(genre_list_counter) + ". " + str(genre))
+        genre_list_counter += 1
+
 
 # Main #####################################################
 ############################################################
@@ -194,7 +267,7 @@ def test_print_menu():
 if __name__ == '__main__':
     test_print_menu()
     i = 0
-    while i < 1 or i > 4:
+    while i < 1 or i > 6:
         try:
             i = int(input("Input your selection: "))
         except:
@@ -205,6 +278,11 @@ if __name__ == '__main__':
         test2b()
     elif i == 3:
         test2c(str(input("What artist do you want to search for?  ")))
+    elif i == 4:
+        print_genre_seeds()
+        test2d(str(input("What genre do you want to search for?  ")))
+    elif i == 5:
+        test2e(str(input("What year do you want to search for?  ")))
 
 
 # EOF ######################################################
