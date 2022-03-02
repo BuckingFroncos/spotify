@@ -17,7 +17,7 @@ DEBUG_onlyartist = False
 ############################################################
 
 # printing a playlist
-def test2a():
+def test2a(debug = DEBUG_print):
     client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
@@ -28,12 +28,13 @@ def test2a():
     while results['next']:
         results = spotify.next(results)
         albums.extend(results['items'])
-
-    for album in albums:
-        print(album['name'])
+    if debug:
+        for album in albums:
+            print(album['name'])
+    return albums
 
 # print top 5, from global top 50
-def test2b():
+def test2b(debug = DEBUG_print):
     client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
@@ -44,6 +45,8 @@ def test2b():
     track_uris = [x["track"]["uri"] for x in sp.playlist_tracks(playlist_URI)["items"]]
 
     count = 1
+    song_list = []
+
     for track in sp.playlist_tracks(playlist_URI)["items"]:
         # song list
         slist = []
@@ -102,18 +105,23 @@ def test2b():
                 break
 
         # Printing
-        if DEBUG_print:
+        if debug:
             print("Track #" + str(count))
-            count += 1
             for x in slist:
                 print(x)
             
             print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
-            if count > 5:
-                break
+        
+        count += 1
+        song_list.append(slist)
+        if count > 5:
+            break
 
-# search for related artist given an artist
-def test2c(artist: str):
+    
+    return song_list
+
+# search for related artist given an artist, not ready for front-end testing yet
+def test2c(artist: str, debug = DEBUG_print):
     client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
@@ -178,13 +186,14 @@ def test2c(artist: str):
         for x in slist:
             print(x)
 
-# search for artists/related artists via genre
-def test2d(genre: str):
+# search for artists/related artists via genre, not ready for front-end testing yet
+def test2d(genre: str, debug=DEBUG_print):
     client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     redo = 0
     adict = {}
+    genre_list = []
     while redo == 0:
         adict.clear()
 
@@ -204,12 +213,16 @@ def test2d(genre: str):
         else:
             alist_counter = 1
             for x in adict:
-                print(str(alist_counter) + ". " + x)
+                if debug:
+                    print(str(alist_counter) + ". " + x)
+                genre_list.append(str(alist_counter) + ". " + x)
                 alist_counter += 1
             redo = 1
 
-# search for top tracks via year
-def test2e(year: str):
+    return genre_list
+
+# search for top tracks via year, not ready for front-end testing yet
+def test2e(year: str, debug = DEBUG_print):
     client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
@@ -220,7 +233,8 @@ def test2e(year: str):
     # search by year
     search_results = sp.search(q="year:" + year, type="track")
 
-    print("Top tracks of " + year)
+    if debug:
+        print("Top tracks of " + year)
 
     for x in search_results:
         for artist in (search_results[x]["items"]):
@@ -231,9 +245,14 @@ def test2e(year: str):
                 
 
     alist_counter = 0
+    year_list = []
     for x in adict:
-        print("(" + str(alist_counter) + ")  " + x)
+        if debug:
+            print(str(alist_counter) + ". " + x)
+            year_list.append(str(alist_counter) + ". " + x)
         alist_counter += 1
+    
+    return year_list
         
 
 # prints testing menu
@@ -250,15 +269,20 @@ def test_print_menu():
   print(string)
 
 # prints genre list
-def print_genre_seeds():
+def print_genre_seeds(debug = DEBUG_print):
     client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     genre_list = sp.recommendation_genre_seeds()
     genre_list_counter = 1
+    genre_list = []
     for genre in genre_list['genres']:
-        print(str(genre_list_counter) + ". " + str(genre))
+        if debug:
+            print(str(genre_list_counter) + ". " + str(genre))
+        genre_list.append(str(genre_list_counter) + ". " + str(genre))
         genre_list_counter += 1
+
+    return genre_list
 
 
 # Main #####################################################
