@@ -1,7 +1,7 @@
 # Simple Flask Application for basic layout of our Project
 # Must have Flask Module installed, pip intall Flask
-from flask import Flask, render_template, url_for, jsonify
-from test2 import *
+from flask import Flask, render_template, url_for, jsonify, request
+from spotify_functions import *
 from test3 import *
 import requests
 import json
@@ -38,9 +38,34 @@ def urlgrabber():
 
 @app.route('/spotifytest/')
 def spotifytest():
-    test = test2b(debug=False)    # return songs from top 50 global
+    test = test_print_top5()
 
     return jsonify(test)
+
+@app.route('/artistsearch/name')
+def artistsearch_name():
+    name = request.args.get("name")
+    return search_for_artist(name)
+
+@app.route('/artistsearch/related')
+def artistsearch_related():
+    uri = request.args.get("uri")
+    return search_for_related_artists(uri)
+
+@app.route('/artistsearch/genre')
+def artistsearch_genre():
+    genre = request.args.get("genre")
+    return search_by_genre(genre)
+
+@app.route('/artistsearch/year')
+def artistsearch_year():
+    year = request.args.get("year")
+    return search_by_year(year)
+
+@app.route('/genre/')
+def get_genres_list():
+    return get_genres()
+
 
 @app.route('/searching/')
 def search():
