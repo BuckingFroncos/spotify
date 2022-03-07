@@ -2,7 +2,7 @@
 # Must have Flask Module installed, pip intall Flask
 from flask import Flask, render_template, url_for, jsonify, request
 from spotify_functions import *
-from test3 import *
+from bs_functions import *
 import requests
 import json
 import urllib # Used to get images from web using their url found in image html tags
