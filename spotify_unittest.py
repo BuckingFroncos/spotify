@@ -5,7 +5,7 @@ class TestSpotify(unittest.TestCase):
 
     # search for blackpink
     def test_search(self):
-        message = "Could not search for Blackpink)"
+        message = "Could not search for Blackpink"
         self.assertIsNotNone(search_for_artist("Blackpink"), message)
 
     # search for edm artists
@@ -22,6 +22,11 @@ class TestSpotify(unittest.TestCase):
     def test_related(self):
         message = "Could not search for related artists"
         self.assertIsNotNone(search_for_related_artists("spotify:artist:4q3ewBCX7sLwd24euuV69X"), message)
+
+    # search for blackpink with genre pop
+    def test_multiple(self):
+        message = "Could not search for Blackpink (pop)"
+        self.assertIsNotNone(search_artist(artist='Blackpink', genre='pop'), message)
 
 if __name__ == "__main__":
     unittest.main()

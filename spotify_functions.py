@@ -198,6 +198,42 @@ def get_genres():
 
     return genre_list
 
+# search by multiple parameters
+def search_artist(artist: str = None, genre: str = None, year: str = None):
+    # credentials
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    str_builder = ""
+
+    if artist is not None:
+        str_builder += "artist:" + artist + " "
+    if genre is not None:
+        str_builder += "genre:" + genre + " "
+    if year is not None:
+        str_builder += "year:" + year + " "
+    
+    # if nothing was passed trhrough
+    if str_builder == "":
+        return None
+
+    # search by year
+    search_results = sp.search(q=str_builder, type="artist")
+
+    # creating artist dict
+    adict = {}
+
+    # iterate through all search results
+    for x in search_results:
+        for artist in (search_results[x]["items"]):
+            name = (artist["name"])
+            uri = (artist["uri"])
+            image = (artist["images"])
+            if name not in adict:
+                adict[name] = [uri, image]
+                    
+    return adict
+
 
 if __name__ == "__main__":
     test_print_top5()

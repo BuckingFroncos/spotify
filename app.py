@@ -42,6 +42,13 @@ def spotifytest():
 
     return jsonify(test)
 
+@app.route('/artistsearch/main')
+def artistsearch():
+    var_name = request.args.get("name", None)
+    var_genre = request.args.get("genre", None)
+    var_year = request.args.get("year", None)
+    return search_artist(artist = var_name, genre = var_genre, year = var_year)
+
 @app.route('/artistsearch/name')
 def artistsearch_name():
     name = request.args.get("name")
