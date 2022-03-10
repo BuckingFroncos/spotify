@@ -3,6 +3,7 @@
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyOAuth
 from secretCredentials import *
 
 # DEBUG ####################################################
@@ -234,6 +235,55 @@ def search_artist(artist: str = None, genre: str = None, year: str = None):
                     
     return adict
 
+# get top 5 songs given artist uri
+def get_songs(uri: str):
+    # credentials
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    # search tracks by artist uri
+    search_results = sp.artist_top_tracks(uri)
+
+    # creating track dict
+    tdict = {}
+
+    # iterate through top 5 search results
+    for track in search_results['tracks'][:5]:
+        name = track['name']
+        t_uri = track['uri']
+        audio = track['preview_url']
+        art = track['album']['images'][0]['url']
+        if name not in tdict:
+            tdict[name] = [t_uri, audio, art]
+
+    return tdict
+
+# create playlist test, returns id to playlist
+def create_playlist(pl_name: str):
+    # credentials
+    scope = 'playlist-modify-private'
+    username = 'nekkedgramma'
+    token = SpotifyOAuth(scope = scope, username=username, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
+    sp = spotipy.Spotify(auth_manager=token)
+
+    # create
+    uri = sp.user_playlist_create(user = username, name = pl_name, public = False, collaborative = True)
+    
+    id = uri['id']
+    
+    return id
+
+# given playlist id, add to playlist
+def add_song(pl_id: str, track_uri: str):
+    # credentials
+    scope = 'playlist-modify-private'
+    username = 'nekkedgramma'
+    token = SpotifyOAuth(scope = scope, username=username, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
+    sp = spotipy.Spotify(auth_manager=token)
+
+    # add track
+    sp.user_playlist_add_tracks(user = username, playlist_id=pl_id, tracks=[track_uri])
+    
 
 if __name__ == "__main__":
     test_print_top5()

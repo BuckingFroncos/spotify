@@ -1,6 +1,8 @@
 import unittest
 from spotify_functions import *
 
+# use flag -v for verbosity
+
 class TestSpotify(unittest.TestCase):
 
     # search for blackpink
@@ -27,6 +29,17 @@ class TestSpotify(unittest.TestCase):
     def test_multiple(self):
         message = "Could not search for Blackpink (pop)"
         self.assertIsNotNone(search_artist(artist='Blackpink', genre='pop'), message)
+
+    # search for top 5 tracks from KID LAROI
+    def test_tracks(self):
+        message = "Could not search for top 5 tracks from KID LAROI"
+        self.assertIsNotNone(get_songs("spotify:artist:2tIP7SsRs7vjIcLrU85W8J"))
+
+    # creates a playlist named test
+    def test_create(self):
+        message = "Could not create collaborative playlist 'test'"
+        self.assertIsNotNone(create_playlist('test'))
+        
 
 if __name__ == "__main__":
     unittest.main()
