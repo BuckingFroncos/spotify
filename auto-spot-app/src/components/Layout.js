@@ -1,6 +1,8 @@
 import React from 'react'
-import { Drawer, Typography, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
-import { makeStyles } from '@mui/styles';
+import { Drawer, Typography, List, ListItem, ListItemIcon, ListItemText } from '@mui/material/'
+import { makeStyles } from '@mui/styles'
+import {AddCircleOutlineOutlined, Home} from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 
 const drawerWidth = 240
 
@@ -22,14 +24,17 @@ const useStyles = makeStyles({
 
 export default function Layout({ children }){
     const classes = useStyles()
+    const navigate = useNavigate()
 
     const menuItems = [
         {
             text: 'Home',
-            path: '/'
+            path: '/',
+            icon: <Home color="secondary"/>
         },
         {
             text: 'Create Playlist',
+            icon: <AddCircleOutlineOutlined color = "secondary"/>
         }
     ]
 
@@ -43,14 +48,23 @@ export default function Layout({ children }){
             >
                 <div>
                     <Typography variant='h5'>
-                        testing 
+                        Bucking Froncos
                     </Typography>
                 </div>
-                
                 <List>
-
+                    {menuItems.map(item => (
+                        <ListItem
+                            button
+                            key={item.text}
+                            onClick={() => navigate(item.path)}
+                        >
+                            <ListItemIcon>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.text}/>
+                        </ListItem>
+                    ))}
                 </List>
-
             </Drawer>
 
             <div className={classes.page}>

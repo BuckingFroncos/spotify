@@ -1,8 +1,6 @@
 import React from "react"
 import { Card, CardHeader, CardContent,  Typography, CardMedia} from "@mui/material"
 import { makeStyles } from "@mui/styles"
-import { convertLength } from "@mui/material/styles/cssUtils"
-import { boxSizing, padding } from "@mui/system"
 
 const useStyles = makeStyles({
     card: {
