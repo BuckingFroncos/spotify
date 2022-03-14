@@ -8,27 +8,29 @@ import json
 import urllib # Used to get images from web using their url found in image html tags
 from PIL import Image, ImageFilter # Used to manipulate images extraction from webpage
 
-app = Flask(__name__)
+application = Flask(__name__)
 
-@app.route('/')
+app = application # adding the alias for AWS connection
+
+@application .route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/artists/')
+@application .route('/artists/')
 def test():
     return render_template('artists.html')
 
 
-@app.route('/profile/')
+@application .route('/profile/')
 def userProf():
     return "User Profile Here"
 
-@app.route('/settings/')
+@application .route('/settings/')
 def settings():
     return "Settings Here"
 
-@app.route('/getallurl/')
+@application .route('/getallurl/')
 def urlgrabber():
     list = get_all_url()
     str = ''
@@ -36,56 +38,56 @@ def urlgrabber():
         str += x + "<br>"
     return "Returning all urls:<br>" + str
 
-@app.route('/spotifytest/')
+@application .route('/spotifytest/')
 def spotifytest():
     test = test_print_top5()
 
     return jsonify(test)
 
-@app.route('/artistsearch/main')
+@application .route('/artistsearch/main')
 def artistsearch():
     var_name = request.args.get("name", None)
     var_genre = request.args.get("genre", None)
     var_year = request.args.get("year", None)
     return search_artist(artist = var_name, genre = var_genre, year = var_year)
 
-@app.route('/artistsearch/name')
+@application .route('/artistsearch/name')
 def artistsearch_name():
     name = request.args.get("name")
     return search_for_artist(name)
 
-@app.route('/artistsearch/related')
+@application .route('/artistsearch/related')
 def artistsearch_related():
     uri = request.args.get("uri")
     return search_for_related_artists(uri)
 
-@app.route('/artistsearch/genre')
+@application .route('/artistsearch/genre')
 def artistsearch_genre():
     genre = request.args.get("genre")
     return search_by_genre(genre)
 
-@app.route('/artistsearch/year')
+@application .route('/artistsearch/year')
 def artistsearch_year():
     year = request.args.get("year")
     return search_by_year(year)
 
-@app.route('/genre/')
+@application .route('/genre/')
 def get_genres_list():
     return get_genres()
 
 
-@app.route('/searching/')
+@application .route('/searching/')
 def search():
     return "When users search songs. This page will provide the result"
 
-@app.route("/apiTest/")
+@application .route("/apiTest/")
 def apiTest():
     req = requests.get("https://v2.jokeapi.dev/joke/Any?type=single&contains=programming")
     data = json.loads(req.content)
     return render_template("apiTest.html", data=data["joke"])
 
 
-@app.route('/Pillow/')
+@application .route('/Pillow/')
 def apiPillow():
     """Function uses module Pillow. Pillow allows to manipulate images and save them to our computer.
     This method will parse through html of allrecipes.com and save all images' url if it begins with 'https'
@@ -117,4 +119,4 @@ def apiPillow():
 
 
 if __name__ == "__main__":
-    app.run(debug=True) # Debug=True, allows us to see the specific errors of the application
+    application .run(debug=True) # Debug=True, allows us to see the specific errors of the application
