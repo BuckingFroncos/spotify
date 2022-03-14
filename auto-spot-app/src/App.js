@@ -1,4 +1,3 @@
-import './App.css'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Home from './pages/Home'
 import Layout from './components/Layout';
@@ -8,7 +7,7 @@ import { purple } from '@mui/material/colors';
 const theme = createTheme({
   palette:{
     primary:{
-      main: '#1b5e20'
+      main: '#fefefe'
     },
     secondary: purple
   }
