@@ -65,9 +65,10 @@ export default function Layout({ children }){
                 </div>
                 <List>
                     {menuItems.map(item => (
-                        <ListItemButton   
+                        <ListItemButton
+                            key={item.text}   
                             onClick={() => navigate(item.path)}
-                            sx={location.pathname == item.path ? {background: '#f4f4f4'} : null}
+                            sx={location.pathname === item.path ? {background: '#f4f4f4'} : null}
                         >
                             <ListItemIcon>
                                 {item.icon}
