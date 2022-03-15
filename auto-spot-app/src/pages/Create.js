@@ -1,5 +1,5 @@
 import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
 import RefreshIcon from '@mui/icons-material/Refresh'
@@ -7,32 +7,33 @@ import InfoOutlined from '@mui/icons-material/InfoOutlined'
 
 export default function Create() {
     const [artist, setArtist] = useState('')
-    const [info, setInfo] = useState([])
-    const [searched, setSearch] = useState(false)
+    const [info, setInfo] = useState({})
 
-    useEffect(() => {
-        if(searched){
+    const getHeader = () => {
+        const handleSubmit = (e) =>{
+            e.preventDefault()
+
             fetch(`artistsearch/main?name=${artist}`)
             .then(res => {
                 return res.json()
             })
             .then(data => {
-                setInfo(data)
-                console.log(info)
+                let clean = {
+                    'uri': data[artist][0],
+                    'name': artist,
+                    'image': data[artist][1][0].url
+                }
+                setInfo(clean)
+                console.log(clean)
             })
-        }
-
-        setSearch(false)
-    }, [searched])
-
-    const getHeader = () => {
-        const handleChange = (value) =>{
-            console.log(value)
-            setArtist(value)
         };
 
         return(
             <Box
+                component='form'
+                noValidate
+                autoComplete='off'
+                onSubmit={handleSubmit}
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
@@ -46,14 +47,14 @@ export default function Create() {
             >
                 <SearchBar
                     placeholder="Search by Artist"
-                    onChange={(event) => handleChange(event.target.value)}
+                    onChange={(e) => setArtist(e.target.value)}
                     searchBarWidth='720px'
                 />
                 <Box>
                     <Button
                         variant='contained'
-                        onClick={() => setSearch(true)}
                         size='large'
+                        type="submit"
                         sx={{ fontSize: '1.05rem' }}
                     >
                         Search
@@ -66,39 +67,43 @@ export default function Create() {
         )
     };
 
-    const getContent = () =>(
+    const getDefaultContent = () =>(
         <>
             {
-                info != [] && Object.keys(info).length ?
-                        <ImageList>
-                            <ImageListItem key={info[artist][1][0].url}>
-                            <img
-                                src={info[artist][1][0].url}
-                                alt={artist}
-                            />
-                            <ImageListItemBar
-                                title={artist}
-                                actionIcon={
-                                    <IconButton
-                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                    >
-                                        <InfoOutlined/>
-                                    </IconButton>
-                                }
-                            />
-                            </ImageListItem>
-                        </ImageList>
-                :
-                    <Typography 
-                        align="center"
-                        sx={{ margin: '40px 16px', color: 'rgba(0, 0, 0, 0.6)', fontSize: '1.3rem'}}
-                    >
-                        Search for an Artist
-                    </Typography>
+                <Typography 
+                    align="center"
+                    sx={{ margin: '40px 16px', color: 'rgba(0, 0, 0, 0.6)', fontSize: '1.3rem'}}
+                >
+                    Search for an Artist
+                </Typography>
             }
         </>
     );
 
+    const getContent = () =>(
+        <>
+            {
+                <ImageList>
+                    <ImageListItem key={info.uri}>
+                    <img
+                        src={info.image}
+                        alt={info.name}
+                    />
+                    <ImageListItemBar
+                        title={info.name}
+                        actionIcon={
+                            <IconButton
+                            sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                            >
+                                <InfoOutlined/>
+                            </IconButton>
+                        }
+                    />
+                    </ImageListItem>
+                </ImageList>
+            }
+        </>
+    );
 
 
     return(
@@ -111,7 +116,7 @@ export default function Create() {
         >
             <SearchCard
                 header={getHeader()}
-                content={info && getContent()}
+                content={ Object.keys(info).length === 0 || artist === "" ? getDefaultContent() : getContent() }
             />
         </Grid>
     )
