@@ -37,10 +37,10 @@ export default function ArtistSearch() {
     const classes = useStyles()
     const [artist, setArtist] = useState(null)
     const [searched, setSearched] = useState(false)
+    const [data, setData]= useState(null)
 
     const handleSearch = (e) => {
         e.preventDefault()
-
         if (artist) {
         }
     }
@@ -57,7 +57,8 @@ export default function ArtistSearch() {
             })
             .then(data => {
                 console.log(data)
-                setArtist(data)
+                setData(data)
+
             })
             setSearched(false)
         }
@@ -99,12 +100,12 @@ export default function ArtistSearch() {
                 color='secondary'
                 onClick={() => setSearched(true)}
                 startIcon = {<SearchIcon color="Primary"></SearchIcon>}>
-                <Typography
-                    variant="h6"
-                    className={classes.text}>
-                    Search for Artist
-                </Typography>
-            </Button>
+                    <Typography
+                        variant="h6"
+                        className={classes.text}>
+                        Search for Artist
+                    </Typography>
+                </Button>
             </form>
             {/* May Use Select prop of text field for genre and year */}
         </Container>
@@ -113,11 +114,9 @@ export default function ArtistSearch() {
             variant='h4'>
             Search Results:
         </Typography>
-        {/* <Container>
-            <div className="result">
-                {artist && <ArtistsList artists=artist></ArtistsList>}
-            </div>
-        </Container> */}
+        <div className="result">
+            {data && <ArtistsList data={data}></ArtistsList>}
         </div>
+    </div>
     )
 }
