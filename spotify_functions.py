@@ -218,7 +218,7 @@ def search_artist(artist: str = None, genre: str = None, year: str = None):
     if str_builder == "":
         return None
 
-    # search by year
+    # search by parameters
     search_results = sp.search(q=str_builder, type="artist")
 
     # creating artist dict
@@ -286,4 +286,5 @@ def add_song(pl_id: str, track_uri: str):
     
 
 if __name__ == "__main__":
-    test_print_top5()
+    #test_print_top5()
+    search_artist(artist="blackpink")
