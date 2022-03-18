@@ -5,9 +5,43 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color: black; */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+li {
+  list-style-type: none;
+  font-size: 1.5rem;
+}
+
+.artistList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  color: #1111DD;
+}
+
+.artist {
+  flex: 1 0 21%;
+  margin: 5vh 5vh 5vh 5vh;
+  height: 25vh;
+  width: 50vw;
+  text-align: center;
+}
+
+
+.artist-pic{
+  min-width: 10vw;
+  min-height: 10vh;
+  max-width: 20vw;
+  max-height: 20vh;
+  border: 4px black solid;
+  border-radius: 50%;
+  object-fit: fill;
 }
