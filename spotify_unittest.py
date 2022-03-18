@@ -48,7 +48,22 @@ class TestSpotify(unittest.TestCase):
     # creates a playlist named test
     def test_create(self):
         message = "Could not create collaborative playlist 'test'"
-        self.assertIsNotNone(create_playlist('test'))
+        self.assertIsNotNone(create_playlist('test'), message)
+
+    # creates a playlist named test and adds top 5 songs from all artists returned from searching "blackpink"
+    def test_playlistgen(self):
+        message = "Could not be done..."
+        adict = search_artist(artist="blackpink")
+        pl_name = "test2"
+
+        test_bool = False
+
+        id = create_playlist(pl_name)
+        for artist_uri in adict:
+            success = add_song_via_artist(id, artist_uri)
+            test_bool = (test_bool or success)
+
+        assert test_bool, message
 
 
 if __name__ == "__main__":

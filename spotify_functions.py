@@ -113,8 +113,11 @@ def search_for_artist(artist: str):
             name = (artist["name"])
             uri = (artist["uri"])
             image = (artist["images"])
-            if name not in adict:
-                adict[name] = [uri, image]
+
+            if uri not in adict:
+                adict[uri] = [name, image]
+            #if name not in adict:
+            #    adict[name] = [uri, image]
     
     return adict
 
@@ -135,8 +138,11 @@ def search_for_related_artists(artist_uri: str):
         name = (artist["name"])
         uri = (artist["uri"])
         image = (artist["images"])
-        if name not in adict:
-            adict[name] = [uri, image]
+
+        if uri not in adict:
+            adict[uri] = [name, image]
+        #if name not in adict:
+        #    adict[name] = [uri, image]
 
     return adict
 
@@ -160,8 +166,11 @@ def search_by_genre(genre: str):
             name = (artist["name"])
             uri = (artist["uri"])
             image = (artist["images"])
-            if name not in adict:
-                adict[name] = [uri, image]
+
+            if uri not in adict:
+                adict[uri] = [name, image]
+            #if name not in adict:
+            #    adict[name] = [uri, image]
                     
     return adict
 
@@ -183,8 +192,11 @@ def search_by_year(year: str):
             name = (artist["name"])
             uri = (artist["uri"])
             image = (artist["images"])
-            if name not in adict:
-                adict[name] = [uri, image]
+
+            if uri not in adict:
+                adict[uri] = [name, image]
+            #if name not in adict:
+            #    adict[name] = [uri, image]
                     
     return adict
 
@@ -230,8 +242,11 @@ def search_artist(artist: str = None, genre: str = None, year: str = None):
             name = (artist["name"])
             uri = (artist["uri"])
             image = (artist["images"])
-            if name not in adict:
-                adict[name] = [uri, image]
+
+            if uri not in adict:
+                adict[uri] = [name, image]
+            #if name not in adict:
+            #    adict[name] = [uri, image]
                     
     return adict
 
@@ -253,8 +268,11 @@ def get_songs(uri: str):
         t_uri = track['uri']
         audio = track['preview_url']
         art = track['album']['images'][0]['url']
-        if name not in tdict:
-            tdict[name] = [t_uri, audio, art]
+
+        if uri not in tdict:
+            tdict[t_uri] = [name, audio, art]
+        #if name not in tdict:
+        #    tdict[name] = [t_uri, audio, art]
 
     return tdict
 
@@ -283,8 +301,19 @@ def add_song(pl_id: str, track_uri: str):
 
     # add track
     sp.user_playlist_add_tracks(user = username, playlist_id=pl_id, tracks=[track_uri])
+
+    return True
+
+# given an artist, add top songs to playlist, returns true upon success
+def add_song_via_artist(pl_id: str, artist_uri: str):
+    track_dict = get_songs(artist_uri)
+    for track_uri in track_dict:
+        success = add_song(pl_id, track_uri)
+        if not success:
+            return False
+
+    return True
     
 
 if __name__ == "__main__":
-    #test_print_top5()
-    search_artist(artist="blackpink")
+    test_print_top5()
