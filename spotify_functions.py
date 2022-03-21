@@ -277,10 +277,9 @@ def get_songs(uri: str):
     return tdict
 
 # create playlist test, returns id to playlist
-def create_playlist(pl_name: str):
+def create_playlist(pl_name: str, username: str = 'nekkedgramma'):
     # credentials
     scope = 'playlist-modify-private'
-    username = 'nekkedgramma'
     token = SpotifyOAuth(scope = scope, username=username, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
     sp = spotipy.Spotify(auth_manager=token)
 
@@ -292,10 +291,9 @@ def create_playlist(pl_name: str):
     return id
 
 # given playlist id, add to playlist
-def add_song(pl_id: str, track_uri: str):
+def add_song(pl_id: str, track_uri: str, username: str = 'nekkedgramma'):
     # credentials
     scope = 'playlist-modify-private'
-    username = 'nekkedgramma'
     token = SpotifyOAuth(scope = scope, username=username, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
     sp = spotipy.Spotify(auth_manager=token)
 
