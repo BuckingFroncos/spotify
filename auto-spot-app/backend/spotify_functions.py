@@ -113,8 +113,11 @@ def search_for_artist(artist: str):
             name = (artist["name"])
             uri = (artist["uri"])
             image = (artist["images"])
-            if name not in adict:
-                adict[name] = [uri, image]
+
+            if uri not in adict:
+                adict[uri] = [name, image]
+            #if name not in adict:
+            #    adict[name] = [uri, image]
     
     return adict
 
@@ -135,8 +138,11 @@ def search_for_related_artists(artist_uri: str):
         name = (artist["name"])
         uri = (artist["uri"])
         image = (artist["images"])
-        if name not in adict:
-            adict[name] = [uri, image]
+
+        if uri not in adict:
+            adict[uri] = [name, image]
+        #if name not in adict:
+        #    adict[name] = [uri, image]
 
     return adict
 
@@ -160,8 +166,11 @@ def search_by_genre(genre: str):
             name = (artist["name"])
             uri = (artist["uri"])
             image = (artist["images"])
-            if name not in adict:
-                adict[name] = [uri, image]
+
+            if uri not in adict:
+                adict[uri] = [name, image]
+            #if name not in adict:
+            #    adict[name] = [uri, image]
                     
     return adict
 
@@ -183,8 +192,11 @@ def search_by_year(year: str):
             name = (artist["name"])
             uri = (artist["uri"])
             image = (artist["images"])
-            if name not in adict:
-                adict[name] = [uri, image]
+
+            if uri not in adict:
+                adict[uri] = [name, image]
+            #if name not in adict:
+            #    adict[name] = [uri, image]
                     
     return adict
 
@@ -218,7 +230,7 @@ def search_artist(artist: str = None, genre: str = None, year: str = None):
     if str_builder == "":
         return None
 
-    # search by year
+    # search by parameters
     search_results = sp.search(q=str_builder, type="artist")
 
     # creating artist dict
@@ -230,8 +242,11 @@ def search_artist(artist: str = None, genre: str = None, year: str = None):
             name = (artist["name"])
             uri = (artist["uri"])
             image = (artist["images"])
-            if name not in adict:
-                adict[name] = [uri, image]
+
+            if uri not in adict:
+                adict[uri] = [name, image]
+            #if name not in adict:
+            #    adict[name] = [uri, image]
                     
     return adict
 
@@ -253,16 +268,18 @@ def get_songs(uri: str):
         t_uri = track['uri']
         audio = track['preview_url']
         art = track['album']['images'][0]['url']
-        if name not in tdict:
-            tdict[name] = [t_uri, audio, art]
+
+        if uri not in tdict:
+            tdict[t_uri] = [name, audio, art]
+        #if name not in tdict:
+        #    tdict[name] = [t_uri, audio, art]
 
     return tdict
 
 # create playlist test, returns id to playlist
-def create_playlist(pl_name: str):
+def create_playlist(pl_name: str, username: str = 'nekkedgramma'):
     # credentials
     scope = 'playlist-modify-private'
-    username = 'nekkedgramma'
     token = SpotifyOAuth(scope = scope, username=username, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
     sp = spotipy.Spotify(auth_manager=token)
 
@@ -274,15 +291,26 @@ def create_playlist(pl_name: str):
     return id
 
 # given playlist id, add to playlist
-def add_song(pl_id: str, track_uri: str):
+def add_song(pl_id: str, track_uri: str, username: str = 'nekkedgramma'):
     # credentials
     scope = 'playlist-modify-private'
-    username = 'nekkedgramma'
     token = SpotifyOAuth(scope = scope, username=username, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
     sp = spotipy.Spotify(auth_manager=token)
 
     # add track
     sp.user_playlist_add_tracks(user = username, playlist_id=pl_id, tracks=[track_uri])
+
+    return True
+
+# given an artist, add top songs to playlist, returns true upon success
+def add_song_via_artist(pl_id: str, artist_uri: str):
+    track_dict = get_songs(artist_uri)
+    for track_uri in track_dict:
+        success = add_song(pl_id, track_uri)
+        if not success:
+            return False
+
+    return True
     
 
 if __name__ == "__main__":

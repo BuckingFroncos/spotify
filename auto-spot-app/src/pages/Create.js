@@ -1,32 +1,57 @@
-import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList } from "@mui/material"
+import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem } from "@mui/material"
 import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
-import RefreshIcon from '@mui/icons-material/Refresh'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
 
 export default function Create() {
-    const [artist, setArtist] = useState('')
+    const [input, setInput] = useState('')
     const [info, setInfo] = useState({})
+    const [choice, setChoice] = useState('Artist')
 
     const getHeader = () => {
         const handleSubmit = (e) =>{
             e.preventDefault()
-
-            fetch(`artistsearch/main?name=${artist}`)
-            .then(res => {
-                return res.json()
-            })
-            .then(data => {
-                let clean = {
-                    'uri': data[artist][0],
-                    'name': artist,
-                    'image': data[artist][1][0].url
-                }
-                setInfo(clean)
-                console.log(clean)
-            })
+            
+            if(choice === 'Artist')
+            {
+                fetch(`artistsearch/main?name=${input}`)
+                .then(res => {
+                    return res.json()
+                })
+                .then(data => {
+                    setInfo(data)
+                    console.log("In artist")
+                })
+            }
+            else if(choice ==='Genre')
+            {
+                fetch(`artistsearch/main?genre=${input}`)
+                .then(res => {
+                    return res.json()
+                })
+                .then(data => {
+                    setInfo(data)
+                    console.log("In genre")
+                })
+            }
+            else if(choice === 'Year')
+            {
+                fetch(`artistsearch/main?year=${input}`)
+                .then(res => {
+                    return res.json()
+                })
+                .then(data => {
+                    setInfo(data)
+                    console.log("In year")
+                })
+            }
         };
+
+        const handleSelect = (e) => {
+            e.preventDefault()
+            setChoice(e.target.value)
+        }
 
         return(
             <Box
@@ -45,9 +70,24 @@ export default function Create() {
                     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
                 }}
             >
+                <FormControl sx={{ m: 1, width: `calc(100%)` }}>
+                    <InputLabel id="Option-label">Option</InputLabel>
+                    <Select
+                        labelId="Option-label"
+                        id="Option"
+                        value={choice}
+                        defaultValue="Artist"
+                        label="Choice"
+                        onChange={handleSelect}
+                    >
+                        <MenuItem value="Artist">Artist</MenuItem>
+                        <MenuItem value="Genre">Genre</MenuItem>
+                        <MenuItem value="Year">Year</MenuItem>
+                    </Select>
+                </FormControl>
                 <SearchBar
-                    placeholder="Search by Artist"
-                    onChange={(e) => setArtist(e.target.value)}
+                    placeholder={`Search By ${choice}`}
+                    onChange={(e) => e.target.value ? setInput(e.target.value) : setInfo({}) }
                     searchBarWidth='720px'
                 />
                 <Box>
@@ -59,9 +99,6 @@ export default function Create() {
                     >
                         Search
                     </Button>
-                    <IconButton>
-                        <RefreshIcon/>
-                    </IconButton>
                 </Box>
             </Box>
         )
@@ -74,7 +111,7 @@ export default function Create() {
                     align="center"
                     sx={{ margin: '40px 16px', color: 'rgba(0, 0, 0, 0.6)', fontSize: '1.3rem'}}
                 >
-                    Search for an Artist
+                    Nothing found
                 </Typography>
             }
         </>
@@ -84,27 +121,30 @@ export default function Create() {
         <>
             {
                 <ImageList>
-                    <ImageListItem key={info.uri}>
-                    <img
-                        src={info.image}
-                        alt={info.name}
-                    />
-                    <ImageListItemBar
-                        title={info.name}
-                        actionIcon={
+                    {Object.keys(info).map(( key ) => 
+                        <ImageListItem key={key}>
+                        <img
+                            src={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                info[key][1][0]['url']}
+                            alt={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                info[key][1][0]['url']}
+                        />
+                        <ImageListItemBar
+                            title={info[key][0]}
+                            actionIcon={
                             <IconButton
-                            sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                             >
                                 <InfoOutlined/>
-                            </IconButton>
-                        }
-                    />
-                    </ImageListItem>
+                                </IconButton>
+                            }
+                        />
+                        </ImageListItem>
+                    )}
                 </ImageList>
             }
         </>
     );
-
 
     return(
         <Grid 
@@ -116,7 +156,7 @@ export default function Create() {
         >
             <SearchCard
                 header={getHeader()}
-                content={ Object.keys(info).length === 0 || artist === "" ? getDefaultContent() : getContent() }
+                content={Object.keys(info).length === 0 || input === "" ? getDefaultContent() : getContent() }
             />
         </Grid>
     )
