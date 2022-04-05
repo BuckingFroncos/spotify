@@ -4,6 +4,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
+import spotipy.util as util
 from secretCredentials import *
 
 # DEBUG ####################################################
@@ -291,11 +292,14 @@ def create_playlist(pl_name: str, username: str = 'nekkedgramma'):
     return id
 
 # given playlist id, add to playlist
-def add_song(pl_id: str, track_uri: str, username: str = 'nekkedgramma'):
+def add_song(pl_id: str, track_uri: str, username: str = 'nekkedgramma', sp = None):
     # credentials
-    scope = 'playlist-modify-private'
-    token = SpotifyOAuth(scope = scope, username=username, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
-    sp = spotipy.Spotify(auth_manager=token)
+    if sp is not None:
+        pass
+    else:
+        scope = 'playlist-modify-private'
+        token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
+        sp = spotipy.Spotify(auth=token)
 
     # add track
     sp.user_playlist_add_tracks(user = username, playlist_id=pl_id, tracks=[track_uri])
@@ -311,6 +315,15 @@ def add_song_via_artist(pl_id: str, artist_uri: str):
             return False
 
     return True
+
+# login, returns spotipy object
+def login(username: str = 'nekkedgramma'):
+    # credentials
+    scope = 'playlist-modify-public'
+    token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
+    sp = spotipy.Spotify(auth=token)
+
+    return sp
     
 
 if __name__ == "__main__":
