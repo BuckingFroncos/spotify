@@ -319,7 +319,7 @@ def add_song_via_artist(pl_id: str, artist_uri: str):
 # login, returns spotipy object
 def login(username: str = 'nekkedgramma'):
     # credentials
-    scope = 'playlist-modify-public'
+    scope = 'playlist-modify-private'
     token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
     sp = spotipy.Spotify(auth=token)
 
