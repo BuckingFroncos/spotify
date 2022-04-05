@@ -122,13 +122,15 @@ export default function Create() {
             {
                 <ImageList>
                     {Object.keys(info).map(( key ) => 
+                    <a href={`/results/?name=${info[key][0]}&uri=${key}`} target="_blank">
                         <ImageListItem key={key}>
                         <img
-                            src={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                                info[key][1][0]['url']}
-                            alt={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                                info[key][1][0]['url']}
+                                src={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                    info[key][1][0]['url']}
+                                alt={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                    info[key][1][0]['url']}
                         />
+
                         <ImageListItemBar
                             title={info[key][0]}
                             actionIcon={
@@ -140,6 +142,7 @@ export default function Create() {
                             }
                         />
                         </ImageListItem>
+                        </a>
                     )}
                 </ImageList>
             }
