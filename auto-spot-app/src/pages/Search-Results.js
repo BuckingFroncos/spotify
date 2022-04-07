@@ -1,15 +1,16 @@
-import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem } from "@mui/material"
+import { Grid, IconButton, Typography, ImageListItem, ImageListItemBar, ImageList } from "@mui/material"
 import React, { useState } from "react"
 import SearchCard from "../components/SearchCard"
 
 export default function DisplayResults(){
     const [songs, setSongs] = useState({});
+    const [retrieve, setRetrieve] = useState();
     const params = new URLSearchParams(window.location.search);
     const artist = params.get('name')
     const uri = params.get('uri')
 
     const getSongsList = () => {
-        if (uri.length !== 0 && artist.length !== 0){
+        if (uri !== null && artist !== null && !retrieve){
             fetch(`/songsearch/?uri=${uri}`)
             .then(res => {
                 return res.json();
@@ -18,10 +19,9 @@ export default function DisplayResults(){
                 setSongs(data)
                 console.log(`Retrieved ${artist}'s Songs`)
             })
+            setRetrieve(true)
         }
     }
-    console.log(artist)
-    console.log(uri)
 
     const getDefaultContent = () =>(
         <>
@@ -42,7 +42,6 @@ export default function DisplayResults(){
                 <ImageList>
                     {Object.keys(songs).map(( key ) => 
                         <ImageListItem key={key}>
-                            {/* Add anchor tags with url of new page */}
                         <audio controls src={songs[key][1]}></audio>
                         <img
                                 src={songs[key][2]}

@@ -152,7 +152,7 @@ export default function Create() {
     return(
         <Grid 
             item 
-            xs={12} 
+            xs={12} //Grid width, how much space an item should take based on device's size
             sx={{
                 position: 'relative',
             }}
