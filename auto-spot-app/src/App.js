@@ -3,8 +3,9 @@ import Home from './pages/Home'
 import Create from './pages/Create'
 import Layout from './components/Layout';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { purple } from '@mui/material/colors';
+import { blue, purple } from '@mui/material/colors';
 import DisplayResults from './pages/Search-Results';
+import Login from './pages/Login';
 
 const theme = createTheme({
   palette:{
@@ -19,9 +20,10 @@ function App() {
   return(
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Layout>
+      <Layout>
           <Routes>
             <Route path="/" element={<Home/>}/>
+            <Route path="/login" element={<Login/>}/>
             <Route path="/create" element={<Create/>}/>
             <Route path="/results" element={<DisplayResults/>}/>
           </Routes>

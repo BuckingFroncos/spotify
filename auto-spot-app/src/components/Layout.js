@@ -1,6 +1,6 @@
 import React from 'react'
 import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar} from '@mui/material'
-import {AddCircleOutlineOutlined, Home} from '@mui/icons-material'
+import { AccountCircleRounded, AddCircleOutlineOutlined, Home } from '@mui/icons-material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 
@@ -20,6 +20,11 @@ export default function Layout({ children }){
             text: 'Create Playlist',
             path: '/create',
             icon: <AddCircleOutlineOutlined color = "secondary"/>
+        }, 
+        {
+            text: 'Login',
+            path: '/login',
+            icon: <AccountCircleRounded color="secondary"/>
         }
     ]
 
@@ -37,9 +42,9 @@ export default function Layout({ children }){
                 elevation={0}
             >
                 <Toolbar>
-                    <Typography>
-                        Welcome to Our Music Automated Collab Tool
-                    </Typography>
+                        <Typography>
+                            Welcome to Our Music Automated Collab Tool
+                        </Typography>
                 </Toolbar>
             </AppBar>
             <Drawer
