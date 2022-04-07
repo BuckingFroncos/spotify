@@ -138,11 +138,11 @@ export default function Create() {
                                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                             >
                                 <InfoOutlined/>
-                                </IconButton>
+                            </IconButton>
                             }
                         />
                         </ImageListItem>
-                        </a>
+                    </a>
                     )}
                 </ImageList>
             }

@@ -3,7 +3,7 @@ import Home from './pages/Home'
 import Create from './pages/Create'
 import Layout from './components/Layout';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { blue, purple } from '@mui/material/colors';
+import { purple } from '@mui/material/colors';
 import DisplayResults from './pages/Search-Results';
 import Login from './pages/Login';
 
