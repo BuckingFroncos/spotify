@@ -1,8 +1,9 @@
-import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem } from "@mui/material"
+import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem} from "@mui/material"
 import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
+import { display, width } from "@mui/system"
 
 export default function Create() {
     const [input, setInput] = useState('')
@@ -59,46 +60,52 @@ export default function Create() {
                 noValidate
                 autoComplete='off'
                 onSubmit={handleSubmit}
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    paddingLeft: '20px',
-                    paddingRight: '20px',
-                    height: '65px',
-                    backgroundColor: '#f5f5f5',
-                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                }}
             >
-                <FormControl sx={{ m: 1, width: `calc(100%)` }}>
-                    <InputLabel id="Option-label">Option</InputLabel>
-                    <Select
-                        labelId="Option-label"
-                        id="Option"
-                        value={choice}
-                        defaultValue="Artist"
-                        label="Choice"
-                        onChange={handleSelect}
-                    >
-                        <MenuItem value="Artist">Artist</MenuItem>
-                        <MenuItem value="Genre">Genre</MenuItem>
-                        <MenuItem value="Year">Year</MenuItem>
-                    </Select>
-                </FormControl>
-                <SearchBar
-                    placeholder={`Search By ${choice}`}
-                    onChange={(e) => e.target.value ? setInput(e.target.value) : setInfo({}) }
-                    searchBarWidth='720px'
-                />
-                <Box>
-                    <Button
-                        variant='contained'
-                        size='large'
-                        type="submit"
-                        sx={{ fontSize: '1.05rem' }}
-                    >
-                        Search
-                    </Button>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        backgroundColor: '#f5f5f5',
+                        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                        paddingLeft: '20px',
+                        paddingRight: '20px',
+                    }}
+                >
+                    <FormControl sx={{ m: 1, flexShrink: 1}}>
+                        <InputLabel id="Option-label">Option</InputLabel>
+                        <Select
+                            labelId="Option-label"
+                            id="Option"
+                            value={choice}
+                            defaultValue="Artist"
+                            label="Choice"
+                            onChange={handleSelect}
+                        >
+                            <MenuItem value="Artist">Artist</MenuItem>
+                            <MenuItem value="Genre">Genre</MenuItem>
+                            <MenuItem value="Year">Year</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <SearchBar
+                        placeholder={`Search By ${choice}`}
+                        onChange={(e) => e.target.value ? setInput(e.target.value) : setInfo({}) }
+                        searchBarWidth='100%'
+                        sx={{
+                            flexGrow: 2,
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                    />
+                    <Box>
+                        <Button
+                            variant='contained'
+                            size='large'
+                            type="submit"
+                            sx={{ fontSize: '1.05rem', flexShrink: 0 }}
+                        >
+                            Search
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
         )
@@ -122,27 +129,27 @@ export default function Create() {
             {
                 <ImageList>
                     {Object.keys(info).map(( key ) => 
-                    <a href={`/results/?name=${info[key][0]}&uri=${key}`} target="_blank">
-                        <ImageListItem key={key}>
-                        <img
-                                src={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                                    info[key][1][0]['url']}
-                                alt={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                                    info[key][1][0]['url']}
-                        />
+                        <a href={`/results/?name=${info[key][0]}&uri=${key}`} target="_blank">
+                            <ImageListItem key={key}>
+                            <img
+                                    src={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                        info[key][1][0]['url']}
+                                    alt={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                        info[key][1][0]['url']}
+                            />
 
-                        <ImageListItemBar
-                            title={info[key][0]}
-                            actionIcon={
-                            <IconButton
-                                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                            >
-                                <InfoOutlined/>
-                            </IconButton>
-                            }
-                        />
-                        </ImageListItem>
-                    </a>
+                            <ImageListItemBar
+                                title={info[key][0]}
+                                actionIcon={
+                                <IconButton
+                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                >
+                                    <InfoOutlined/>
+                                </IconButton>
+                                }
+                            />
+                            </ImageListItem>
+                        </a>
                     )}
                 </ImageList>
             }

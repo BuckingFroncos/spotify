@@ -5,10 +5,7 @@ export default function SearchCard({header, content}){
     return(
         <Card
             sx={{
-                width: '1050px',
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
+                width: '100%',
                 borderRadius: '8px'
             }}
         >
