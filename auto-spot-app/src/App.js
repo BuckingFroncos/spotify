@@ -25,7 +25,7 @@ function App() {
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/create" element={<Create/>}/>
-            <Route path="/results" element={<DisplayResults/>}/>
+            <Route path="/create/:name/:uri" element={<DisplayResults/>}/>
           </Routes>
         </Layout>
       </BrowserRouter>

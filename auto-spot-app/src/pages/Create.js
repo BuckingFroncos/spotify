@@ -3,13 +3,19 @@ import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
+import {useNavigate} from "react-router-dom"
+import './Create.css'
 
 export default function Create() {
     const [input, setInput] = useState('')
     const [info, setInfo] = useState({})
     const [choice, setChoice] = useState('Artist')
+    const navigate = useNavigate()
     const imageStyle = {
-        borderRadius: '2% 2% 0px 0px'
+        borderRadius: '2% 2% 0px 0px',
+        objectFit: 'cover',
+        cursor: 'pointer',
+        transition: 'opacity .3s linear',
     }
 
     const getHeader = () => {
@@ -133,29 +139,28 @@ export default function Create() {
                     gap={15}
                 >
                     {Object.keys(info).map(( key ) => 
-                        <a href={`/results/?name=${info[key][0]}&uri=${key}`} target="_blank">
-                            <ImageListItem 
-                                key={key}
-                            >
-                                <img
-                                    src={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                        <ImageListItem 
+                            key={key}
+                        >
+                            <img
+                                src={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
                                         info[key][1][0]['url']}
-                                    alt={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                alt={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
                                         info[key][1][0]['url']}
-                                    style={imageStyle}
-                                />
-                                <ImageListItemBar
-                                    title={info[key][0]}
-                                    actionIcon={
-                                    <IconButton
-                                        sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                    >
-                                        <InfoOutlined/>
-                                    </IconButton>
-                                    }
-                                />
-                            </ImageListItem>
-                        </a>
+                                style={imageStyle}
+                                onClick={() => navigate(`/create/${info[key][0]}/${key}`)}
+                            />
+                            <ImageListItemBar
+                                title={info[key][0]}
+                                actionIcon={
+                                <IconButton
+                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                >
+                                    <InfoOutlined/>
+                                </IconButton>
+                                }
+                            />
+                        </ImageListItem>
                     )}
                 </ImageList>
             }

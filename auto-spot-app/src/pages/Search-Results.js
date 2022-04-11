@@ -1,13 +1,13 @@
-import { Grid, Typography, Card, Box, CardContent, CardMedia, ImageList, ImageListItem, ImageListItemBar} from "@mui/material"
+import { Grid, Typography, Card, Box, CardContent, CardMedia, ImageList, ImageListItem, ImageListItemBar, IconButton} from "@mui/material"
 import React, { useState } from "react"
 import SearchCard from "../components/SearchCard"
+import { useParams } from "react-router-dom"
+import { ArrowBackRounded } from "@mui/icons-material"
 
 export default function DisplayResults(){
     const [songs, setSongs] = useState({});
     const [retrieve, setRetrieve] = useState();
-    const params = new URLSearchParams(window.location.search);
-    const artist = params.get('name')
-    const uri = params.get('uri')
+    const {artist, uri} = useParams();
     const audioStyle = {
         width:'100%',
         background: '#f1f3f4',
@@ -27,6 +27,25 @@ export default function DisplayResults(){
             })
             setRetrieve(true)
         }
+
+        return(
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: '#f5f5f5',
+                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                }}
+            >
+            
+                <IconButton aria-label="back">
+                    <ArrowBackRounded/>
+                </IconButton>
+                    
+            </Box>
+        )
     }
 
     const getDefaultContent = () =>(
@@ -90,7 +109,7 @@ export default function DisplayResults(){
                                     display: 'grid', 
                                     gridTemplateRows: '1fr', 
                                     gridTemplateColumns: '2fr 2fr 2fr',
-                                    boxShadow: '7',
+                                    boxShadow: '10',
                                     background:'linear-gradient(to top left, rgba(229, 243, 238, 0.8), rgba(243, 241, 243, 0.8))',
                                     borderRadius:'10px 10px 10px 10px'
                                 }}>
@@ -118,6 +137,9 @@ export default function DisplayResults(){
                                             width: '100%', 
                                             gridColumn: '3 / 4', 
                                             gridRow: '1 / 3',
+                                            '&:hover': {
+                                                opacity: 1,
+                                            }
                                         }}
                                         image={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
                                         songs[key][2]}
