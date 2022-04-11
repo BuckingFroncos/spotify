@@ -10,7 +10,10 @@ export default function DisplayResults(){
     const uri = params.get('uri')
     const audioStyle = {
         width:'100%',
-        background: '#f1f3f4'
+        background: '#f1f3f4',
+        gridColumn: '1 / 3', 
+        gridRow: '2',
+        
     };
 
     const getSongsList = () => {
@@ -83,30 +86,40 @@ export default function DisplayResults(){
                 //             sm={4}
                 //             md={6}
                 //         >
-                //             <Card sx={{ display: 'flex',}}>
-                //                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                //                     <CardContent sx={{ flex: '1 0 auto' }}>
-                //                         <Typography component="div" variant="h5">
-                //                             {songs[key][0]}
-                //                         </Typography>
-                //                         <Typography variant="subtitle1" color="text.secondary" component="div">
-                //                             {artist}
-                //                         </Typography>
-                //                     </CardContent>
-                //                     <audio 
-                //                         controls 
-                //                         src={songs[key][1]}
-                //                         style={audioStyle}
+                //             <Card 
+                //                 sx={{ 
+                //                     display: 'grid', 
+                //                     gridTemplateRows: '1fr', 
+                //                     gridTemplateColumns: '2fr 2fr 2fr',
+                //                 }}>
+                //                     <CardContent sx={{ 
+                //                         gridColumn: '1 / 3', 
+                //                         gridRow: '1' 
+                //                         }}>
+                //                             <Typography component="div" variant="h5">
+                //                                 {songs[key][0]}
+                //                             </Typography>
+                //                             <Typography variant="subtitle1" color="text.secondary" component="div">
+                //                                 {artist}
+                //                             </Typography>
+                //                         </CardContent>
+                //                         <audio 
+                //                             controls 
+                //                             src={songs[key][1]}
+                //                             style={audioStyle}
+                //                         />
+                //                     <CardMedia
+                //                         component="img"
+                //                         sx={{ 
+                //                             width: '100%', 
+                //                             gridColumn: '3 / 4', 
+                //                             gridRow: '1 / 3',
+                //                         }}
+                //                         image={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                //                         songs[key][2]}
+                //                         alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                //                         songs[key][2]}
                 //                     />
-                //                 </Box>
-                //                 <CardMedia
-                //                     component="img"
-                //                     sx={{ width: '50%', display:'flex'}}
-                //                     image={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                //                     songs[key][2]}
-                //                     alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                //                     songs[key][2]}
-                //                 />
                 //             </Card>
                 //         </Grid>
                 //     )}
