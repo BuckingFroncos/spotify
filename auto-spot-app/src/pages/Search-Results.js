@@ -1,5 +1,4 @@
-import { Grid, IconButton, Typography, Container, Card, Box, CardContent, CardMedia, ImageList, ImageListItem, ImageListItemBar} from "@mui/material"
-import { PlayArrow } from "@mui/icons-material";
+import { Grid, Typography, Card, Box, CardContent, CardMedia, ImageList, ImageListItem, ImageListItemBar} from "@mui/material"
 import React, { useState } from "react"
 import SearchCard from "../components/SearchCard"
 
@@ -9,6 +8,10 @@ export default function DisplayResults(){
     const params = new URLSearchParams(window.location.search);
     const artist = params.get('name')
     const uri = params.get('uri')
+    const audioStyle = {
+        width:'100%',
+        background: '#f1f3f4'
+    };
 
     const getSongsList = () => {
         if (uri !== null && artist !== null && !retrieve){
@@ -40,55 +43,74 @@ export default function DisplayResults(){
     const getContent = () =>(
         <>
             {
-                // <ImageList>
-                //     {Object.keys(songs).map(( key ) => 
-                //         <ImageListItem key={key}>
-                //         <audio controls src={songs[key][1]}></audio>
-                //         <img
-                //             src={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                //             songs[key][2]}
-                //             alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                //             songs[key][2]}
-                //         />
-                //         <ImageListItemBar
-                //             title={songs[key][0]}
-                //             subtitle={artist}
-                //         />
-                //         </ImageListItem>
-                //     )}
-                // </ImageList>
+                <ImageList gap={15}>
+                    {Object.keys(songs).map(( key ) => 
+                        <ImageListItem key={key}>
+                            <img
+                                src={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                songs[key][2]}
+                                alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                songs[key][2]}
+                            />
+                            <ImageListItemBar
+                                title={songs[key][0]}
+                                subtitle={artist}
+                                position='top'
+                                sx={{
+                                    background:
+                                    'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                                    'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                                }}
+                            />
+                            <audio 
+                                controls 
+                                src={songs[key][1]}
+                                style={audioStyle}
+                            />
+                        </ImageListItem> 
+                    )}
+                </ImageList>
 
-                <Container>
-                    <Grid container>
-                        {Object.keys(songs).map(( key ) => 
-                            <Grid item key={key} >
-                                <Card sx={{ display: 'flex' }}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                        <CardContent sx={{ flex: '1 0 auto' }}>
-                                            <Typography component="div" variant="h5">
-                                                {songs[key][0]}
-                                            </Typography>
-                                            <Typography variant="subtitle1" color="text.secondary" component="div">
-                                                {artist}
-                                            </Typography>
-                                        </CardContent>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                                            <audio controls src={songs[key][1]}></audio>
-                                        </Box>
-                                    </Box>
-                                    <CardMedia
-                                        component="img"
-                                        sx={{ width: 200, display:'flex'}}
-                                        image={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                                        songs[key][2]}
-                                        alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                                        songs[key][2]}
-                                    />
-                                </Card>
-                            </Grid>
-                        )}
-                    </Grid>
-                </Container>
+                // <Grid 
+                //     container 
+                //     rowSpacing={3}
+                //     columnSpacing={{xs: 1, sm: 2, md: 3}}
+                // >
+                //     {Object.keys(songs).map(( key ) => 
+                //         <Grid 
+                //             item key={key}
+                //             xs={2}
+                //             sm={4}
+                //             md={6}
+                //         >
+                //             <Card sx={{ display: 'flex',}}>
+                //                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                //                     <CardContent sx={{ flex: '1 0 auto' }}>
+                //                         <Typography component="div" variant="h5">
+                //                             {songs[key][0]}
+                //                         </Typography>
+                //                         <Typography variant="subtitle1" color="text.secondary" component="div">
+                //                             {artist}
+                //                         </Typography>
+                //                     </CardContent>
+                //                     <audio 
+                //                         controls 
+                //                         src={songs[key][1]}
+                //                         style={audioStyle}
+                //                     />
+                //                 </Box>
+                //                 <CardMedia
+                //                     component="img"
+                //                     sx={{ width: '50%', display:'flex'}}
+                //                     image={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                //                     songs[key][2]}
+                //                     alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                //                     songs[key][2]}
+                //                 />
+                //             </Card>
+                //         </Grid>
+                //     )}
+                // </Grid>
             }
         </>
     );
