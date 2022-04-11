@@ -13,7 +13,6 @@ export default function DisplayResults(){
         background: '#f1f3f4',
         gridColumn: '1 / 3', 
         gridRow: '2',
-        
     };
 
     const getSongsList = () => {
@@ -46,84 +45,86 @@ export default function DisplayResults(){
     const getContent = () =>(
         <>
             {
-                <ImageList gap={15}>
-                    {Object.keys(songs).map(( key ) => 
-                        <ImageListItem key={key}>
-                            <img
-                                src={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                                songs[key][2]}
-                                alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                                songs[key][2]}
-                            />
-                            <ImageListItemBar
-                                title={songs[key][0]}
-                                subtitle={artist}
-                                position='top'
-                                sx={{
-                                    background:
-                                    'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                                    'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                                }}
-                            />
-                            <audio 
-                                controls 
-                                src={songs[key][1]}
-                                style={audioStyle}
-                            />
-                        </ImageListItem> 
-                    )}
-                </ImageList>
-
-                // <Grid 
-                //     container 
-                //     rowSpacing={3}
-                //     columnSpacing={{xs: 1, sm: 2, md: 3}}
-                // >
+                // <ImageList gap={15}>
                 //     {Object.keys(songs).map(( key ) => 
-                //         <Grid 
-                //             item key={key}
-                //             xs={2}
-                //             sm={4}
-                //             md={6}
-                //         >
-                //             <Card 
-                //                 sx={{ 
-                //                     display: 'grid', 
-                //                     gridTemplateRows: '1fr', 
-                //                     gridTemplateColumns: '2fr 2fr 2fr',
-                //                 }}>
-                //                     <CardContent sx={{ 
-                //                         gridColumn: '1 / 3', 
-                //                         gridRow: '1' 
-                //                         }}>
-                //                             <Typography component="div" variant="h5">
-                //                                 {songs[key][0]}
-                //                             </Typography>
-                //                             <Typography variant="subtitle1" color="text.secondary" component="div">
-                //                                 {artist}
-                //                             </Typography>
-                //                         </CardContent>
-                //                         <audio 
-                //                             controls 
-                //                             src={songs[key][1]}
-                //                             style={audioStyle}
-                //                         />
-                //                     <CardMedia
-                //                         component="img"
-                //                         sx={{ 
-                //                             width: '100%', 
-                //                             gridColumn: '3 / 4', 
-                //                             gridRow: '1 / 3',
-                //                         }}
-                //                         image={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                //                         songs[key][2]}
-                //                         alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                //                         songs[key][2]}
-                //                     />
-                //             </Card>
-                //         </Grid>
+                //         <ImageListItem key={key}>
+                //             <img
+                //                 src={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                //                 songs[key][2]}
+                //                 alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                //                 songs[key][2]}
+                //             />
+                //             <ImageListItemBar
+                //                 title={songs[key][0]}
+                //                 subtitle={artist}
+                //                 position='top'
+                //                 sx={{
+                //                     background:
+                //                     'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                //                     'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                //                 }}
+                //             />
+                //             <audio 
+                //                 controls 
+                //                 src={songs[key][1]}
+                //                 style={audioStyle}
+                //             />
+                //         </ImageListItem> 
                 //     )}
-                // </Grid>
+                // </ImageList>
+
+                <Grid 
+                    container 
+                    rowSpacing={3}
+                    columnSpacing={{xs: 1, sm: 2, md: 3}}
+                >
+                    {Object.keys(songs).map(( key ) => 
+                        <Grid 
+                            item key={key}
+                            xs={2}
+                            sm={4}
+                            md={6}
+                        >
+                            <Card 
+                                sx={{ 
+                                    display: 'grid', 
+                                    gridTemplateRows: '1fr', 
+                                    gridTemplateColumns: '2fr 2fr 2fr',
+                                }}>
+                                    <CardContent 
+                                        sx={{ 
+                                            gridColumn: '1 / 3', 
+                                            gridRow: '1' 
+                                        }}
+                                    >
+                                            <Typography component="div" variant="h5">
+                                                {songs[key][0]}
+                                            </Typography>
+                                            <Typography variant="subtitle1" color="text.secondary" component="div">
+                                                {artist}
+                                            </Typography>
+                                        </CardContent>
+                                        <audio 
+                                            controls 
+                                            src={songs[key][1]}
+                                            style={audioStyle}
+                                        />
+                                    <CardMedia
+                                        component="img"
+                                        sx={{ 
+                                            width: '100%', 
+                                            gridColumn: '3 / 4', 
+                                            gridRow: '1 / 3',
+                                        }}
+                                        image={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                        songs[key][2]}
+                                        alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
+                                        songs[key][2]}
+                                    />
+                            </Card>
+                        </Grid>
+                    )}
+                </Grid>
             }
         </>
     );
