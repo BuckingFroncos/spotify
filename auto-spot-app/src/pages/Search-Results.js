@@ -90,6 +90,9 @@ export default function DisplayResults(){
                                     display: 'grid', 
                                     gridTemplateRows: '1fr', 
                                     gridTemplateColumns: '2fr 2fr 2fr',
+                                    boxShadow: '7',
+                                    background:'linear-gradient(to top left, rgba(229, 243, 238, 0.8), rgba(243, 241, 243, 0.8))',
+                                    borderRadius:'10px 10px 10px 10px'
                                 }}>
                                     <CardContent 
                                         sx={{ 
@@ -103,12 +106,12 @@ export default function DisplayResults(){
                                             <Typography variant="subtitle1" color="text.secondary" component="div">
                                                 {artist}
                                             </Typography>
-                                        </CardContent>
-                                        <audio 
-                                            controls 
-                                            src={songs[key][1]}
-                                            style={audioStyle}
-                                        />
+                                    </CardContent>
+                                    <audio 
+                                        controls 
+                                        src={songs[key][1]}
+                                        style={audioStyle}
+                                    />
                                     <CardMedia
                                         component="img"
                                         sx={{ 
