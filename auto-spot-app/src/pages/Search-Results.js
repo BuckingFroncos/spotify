@@ -137,9 +137,6 @@ export default function DisplayResults(){
                                             width: '100%', 
                                             gridColumn: '3 / 4', 
                                             gridRow: '1 / 3',
-                                            '&:hover': {
-                                                opacity: 1,
-                                            }
                                         }}
                                         image={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
                                         songs[key][2]}

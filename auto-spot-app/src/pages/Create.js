@@ -142,7 +142,7 @@ export default function Create() {
                         <ImageListItem 
                             key={key}
                         >
-                            <img
+                            <img id="song"
                                 src={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
                                         info[key][1][0]['url']}
                                 alt={info[key][1].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 

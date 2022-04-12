@@ -1,7 +1,16 @@
-img {
+/* img {
     opacity: 1;
   }
   
 img:hover {
     opacity: 0.5;
+} */
+
+#song{
+  opacity: 1;
+}
+
+#song:hover {
+  opacity: 0.5;
+  cursor: pointer;
 }
