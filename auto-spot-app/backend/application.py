@@ -17,6 +17,13 @@ def index():
     return render_template('index.html')
 
 
+
+@application .route('/SpotifyConnect/')
+def connect():
+    sp = login()
+    return sp
+
+
 @application .route('/artists/')
 def test():
     return render_template('artists.html')
