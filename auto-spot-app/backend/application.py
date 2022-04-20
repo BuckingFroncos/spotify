@@ -1,5 +1,6 @@
 # Simple Flask Application for basic layout of our Project
 # Must have Flask Module installed, pip intall Flask
+from cmath import e
 from flask import Flask, render_template, url_for, jsonify, request
 from spotify_functions import *
 from bs_functions import *
@@ -20,8 +21,17 @@ def index():
 
 @application .route('/SpotifyConnect/')
 def connect():
+    # var_code = request.args.get("code", None)
+    # return authenticate(var_code)
     sp = login()
+    print(sp)
     return sp
+
+# Route to authenticate user and return profile info
+@application .route('/Logged/')
+def userInfo():
+    var_code = request.args.get("code", None)
+    return authenticate(var_code)
 
 
 @application .route('/artists/')

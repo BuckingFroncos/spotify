@@ -1,10 +1,14 @@
 # Imports ##################################################
 ############################################################
 
+from cgi import test
+from http import client
+from bs4 import SoupStrainer
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 import spotipy.util as util
+from sqlalchemy import false
 from secretCredentials import *
 import os # removing cache files
 
@@ -326,20 +330,52 @@ def add_song_via_artist(pl_id: str, artist_uri: str):
     return True
 
 # login, returns spotipy object
+# Not being used currently
 def login(username: str = 'nekkedgramma'):
     # credentials
-    scope = 'playlist-modify-private'
-    clear_cache()
-    token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
+    scope = 'playlist-modify-private user-read-private'
+    token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri="http://localhost:3000/", show_dialog=True)
+    print(token)
     sp = spotipy.Spotify(auth=token)
+    print(sp.current_user())
+    info = dict()
+    info['info'] = sp.current_user()
+    info['playlists'] = sp.current_user_playlists()
+    return token
 
-    return sp
-    
+
+# def return_Credentials():
+#     s = ""
+#     s += client_id + redirect_uri + client_secret 
+#     return s
+
+
+def authenticate(token: str):
+    username = "nekkedgramma"
+    scope = 'playlist-modify-private user-read-private'
+    # Login, then call it again/ call authenicate to save access token and return user Profile Information
+    token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=False) # THIS MAKES IT WORK
+    sp = spotipy.Spotify(auth=token)
+    print("Step 2")
+    userInfo = sp.current_user()
+    print("DONE")
+    print(userInfo)
+    info = dict()
+    info['info'] = sp.current_user()
+    info['playlists'] = sp.current_user_playlists()
+    return info
+
+
 # clear cache
 def clear_cache():
     for fname in os.listdir("."):
         if os.path.isfile(fname) and fname.startswith(".cache"):
             os.remove(fname)
 
+
 if __name__ == "__main__":
-    test_print_top5()
+    token = login()
+    # print(authenticate(token))
+    # access = input("Enter refresh token: ")
+    # access = SpotifyOAuth.get_access_token(access)
+    # authenticate(access)
