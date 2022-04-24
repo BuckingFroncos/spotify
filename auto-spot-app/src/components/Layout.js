@@ -21,11 +21,6 @@ export default function Layout({ children }){
             path: '/create',
             icon: <AddCircleOutlineOutlined color = "secondary"/>
         }, 
-        {
-            text: 'Login',
-            path: '/login',
-            icon: <AccountCircleRounded color="secondary"/>
-        }
     ]
 
     return(
