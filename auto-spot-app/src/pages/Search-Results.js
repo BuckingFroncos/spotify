@@ -1,4 +1,4 @@
-import { Grid, Typography, Card, Box, CardContent, CardMedia, ImageList, ImageListItem, ImageListItemBar, IconButton} from "@mui/material"
+import { Grid, Typography, Card, Box, CardContent, CardMedia, IconButton} from "@mui/material"
 import React, { useState } from "react"
 import SearchCard from "../components/SearchCard"
 import { useParams } from "react-router-dom"
@@ -64,34 +64,6 @@ export default function DisplayResults(){
     const getContent = () =>(
         <>
             {
-                // <ImageList gap={15}>
-                //     {Object.keys(songs).map(( key ) => 
-                //         <ImageListItem key={key}>
-                //             <img
-                //                 src={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                //                 songs[key][2]}
-                //                 alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
-                //                 songs[key][2]}
-                //             />
-                //             <ImageListItemBar
-                //                 title={songs[key][0]}
-                //                 subtitle={artist}
-                //                 position='top'
-                //                 sx={{
-                //                     background:
-                //                     'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                //                     'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                //                 }}
-                //             />
-                //             <audio 
-                //                 controls 
-                //                 src={songs[key][1]}
-                //                 style={audioStyle}
-                //             />
-                //         </ImageListItem> 
-                //     )}
-                // </ImageList>
-
                 <Grid 
                     container 
                     rowSpacing={3}

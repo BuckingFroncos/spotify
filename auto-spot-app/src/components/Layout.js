@@ -1,6 +1,7 @@
 import React from 'react'
-import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar} from '@mui/material'
+import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, Avatar, Badge} from '@mui/material'
 import { AccountCircleRounded, AddCircleOutlineOutlined, Home } from '@mui/icons-material'
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 
@@ -37,9 +38,31 @@ export default function Layout({ children }){
                 elevation={0}
             >
                 <Toolbar>
-                        <Typography>
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{flexGrow: 1}}
+                    >
                             Welcome to Our Music Automated Collab Tool
-                        </Typography>
+                    </Typography>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <IconButton 
+                            size="large"
+                            color="inherit"
+                        >
+                            <Badge badgeContent={17} color="error">
+                                <PlaylistAddIcon/>
+                            </Badge>
+                        </IconButton>
+                        <IconButton 
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            color="inherit"
+                        >
+                            <Avatar alt="Login" src="/static/images/avatar/2.jpg" />
+                        </IconButton>
+                    </Box>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -48,7 +71,7 @@ export default function Layout({ children }){
                     '& .MuiDrawer-paper':{
                         width: drawerWidth,
                         boxSizing: 'border-box'
-                    }
+                    },
                 }}
                 variant="permanent"
                 anchor='left'
