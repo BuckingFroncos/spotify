@@ -23,7 +23,6 @@ function App() {
       <Layout>
           <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/login" element={<Login/>}/>
             <Route path="/create" element={<Create/>}/>
             <Route path="/create/:name/:uri" element={<DisplayResults/>}/>
           </Routes>

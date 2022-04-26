@@ -1,6 +1,6 @@
 import React from 'react'
 import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, Avatar, Badge} from '@mui/material'
-import { AccountCircleRounded, AddCircleOutlineOutlined, Home } from '@mui/icons-material'
+import { AddCircleOutlineOutlined, Home } from '@mui/icons-material'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
@@ -50,7 +50,7 @@ export default function Layout({ children }){
                             size="large"
                             color="inherit"
                         >
-                            <Badge badgeContent={17} color="error">
+                            <Badge badgeContent={2} color="error">
                                 <PlaylistAddIcon/>
                             </Badge>
                         </IconButton>
