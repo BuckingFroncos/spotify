@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Button, Container, Box, createTheme, Grid, ThemeProvider, Typography} from "@mui/material"
+import { Button, Container, Box, createTheme, Grid, ThemeProvider, Typography, TextField} from "@mui/material"
 import { useParams } from "react-router-dom"
 import SearchCard from "../components/SearchCard";
 import { DataObjectSharp, LibraryMusicOutlined } from "@mui/icons-material";
@@ -109,6 +109,7 @@ export default function Home() {
               console.log(data)
               let tk = data['access_token']
               console.log(tk)
+              setToken(tk)
               fetch(`Logged/?code=${tk}`)
               .then(res => {
                 return res.json()
@@ -228,6 +229,12 @@ export default function Home() {
         </>
     );
 
+    const [playlist, setPlaylist] = useState();
+
+    const createPlaylist = () => {
+      fetch(`Createplaylist/?token=${token}&name=${playlist}&user=${userData['id']}`)
+    }
+
     const getContent = () =>(
         <>
             {
@@ -237,7 +244,41 @@ export default function Home() {
                 <Typography>Country: {userData['country']}</Typography>
                 <Typography>Email: {userData['email']}</Typography>
                 <Typography>Follower Count: {userData['followers']['total']}</Typography>
-                <Typography></Typography>
+                <TextField
+                sx={{
+                    margin: '2vmin',
+                }}
+                id="Playlist-Field"
+                fullWidth={true}
+                variant="outlined"
+                required
+                label="Playlist Name"
+                onChange={(e) => {
+                  setPlaylist(e.target.value)
+                  console.log(e.target.value)
+                }}
+                color="secondary">
+                </TextField>
+                <Button
+                  sx={{
+                      padding: '0.6vmax 20vmax',
+                      marginX: '10vw',
+                  }}
+                  fullWidth={false}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {createPlaylist()}}
+                  type="submit">
+                      <Typography
+                          variant="h5"
+                          sx={{
+                              color: '#FFF',
+                              fontWeight: 450,
+                              margin: '0'
+                          }}>
+                          Create Playlist
+                      </Typography>
+                  </Button>           
               </Box>
 
             }
