@@ -316,10 +316,10 @@ def add_song(pl_id: str, track_uri: str, username: str = 'nekkedgramma', sp = No
     return True
 
 # given an artist, add top songs to playlist, returns true upon success
-def add_song_via_artist(pl_id: str, artist_uri: str):
+def add_song_via_artist(pl_id: str, artist_uri: str, username: str = 'nekkedgramma', sp = None):
     track_dict = get_songs(artist_uri)
     for track_uri in track_dict:
-        success = add_song(pl_id, track_uri)
+        success = add_song(pl_id, track_uri, username, sp)
         if not success:
             return False
 
@@ -332,8 +332,10 @@ def login(username: str = 'nekkedgramma'):
     clear_cache()
     token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
     sp = spotipy.Spotify(auth=token)
+    user = sp.current_user()
+    username = user['id']
 
-    return sp
+    return sp, username
     
 # clear cache
 def clear_cache():
@@ -342,4 +344,5 @@ def clear_cache():
             os.remove(fname)
 
 if __name__ == "__main__":
-    test_print_top5()
+    #test_print_top5()
+    login()
