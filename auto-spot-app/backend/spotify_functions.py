@@ -283,16 +283,16 @@ def get_songs(uri: str):
     return tdict
 
 # create playlist test, returns id to playlist
-def create_playlist(pl_name: str, username: str = 'nekkedgramma'):
+def create_playlist(token : str, pl_name: str, username: str = 'nekkedgramma'):
     # credentials
     scope = 'playlist-modify-private'
-    token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
+    # token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
     sp = spotipy.Spotify(auth=token)
-
     # create
     uri = sp.user_playlist_create(user = username, name = pl_name, public = False, collaborative = True)
     
     id = uri['id']
+    print(id)
     
     return id
 

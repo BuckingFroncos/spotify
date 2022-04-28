@@ -33,6 +33,13 @@ def userInfo():
     var_code = request.args.get("code", None)
     return authenticate(var_code)
 
+@application.route('/Createplaylist/')
+def createPlaylist():
+    var_token = request.args.get("token", None)
+    var_name = request.args.get("name", None)
+    var_user = request.args.get("user", None)
+    return create_playlist(var_token, var_name, var_user)
+
 
 @application .route('/artists/')
 def test():
