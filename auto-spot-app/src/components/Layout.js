@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, Avatar, Badge} from '@mui/material'
-import { AddCircleOutlineOutlined, Home } from '@mui/icons-material'
+import { AccountCircleOutlined, AddCircleOutlineOutlined, Home } from '@mui/icons-material'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
+import Login from '../pages/Login';
 
 const drawerWidth = 240
 
@@ -11,7 +12,63 @@ export default function Layout({ children }){
     const navigate = useNavigate()
     const location = useLocation()
 
+    const TOKEN = "https://accounts.spotify.com/api/token"
+    const [token, setToken] = useState({})
+    const [userData, setUserData] = useState({})
+  
+    var client_id = 'b1276abbd1904e0194659f0381e8f6f8'; // Your client id
+    var client_secret = '1b81013fb5b447029cd9b1cbe9976c39'; // Your secret
+    var redirect_uri = 'http://localhost:3000/'; // Your redirect uri
+    var scopes = 'user-read-private user-read-email playlist-modify-private'
+  
+    const AUTHORIZE = "https://accounts.spotify.com/authorize"
+    let url = AUTHORIZE;
+    url += '?client_id=' + client_id
+    url += "&response_type=code";
+    url += "&redirect_uri=" + encodeURI(redirect_uri)
+    url += "&show_dialog=true"
+    url += "&scope=" + scopes
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code')
+        let url = TOKEN
+        console.log(url)
+        console.log(code)
+        console.log(userData)
+        if(code !== null && Object.keys(userData).length === 0){
+          fetch(url, {
+            method: 'POST',
+            headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)
+            },
+            body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}`
+            }).then(res => {
+              return res.json()
+            }).then(data => {
+              setToken(data)
+              console.log(data)
+              let tk = data['access_token']
+              console.log(tk)
+              setToken(tk)
+              fetch(`Logged/?code=${tk}`)
+              .then(res => {
+                return res.json()
+              }).then(data => {
+                setUserData(data)
+                console.log(data)
+              })
+            })
+      }
+    }, [])
+
     const menuItems = [
+        // { May need this page still
+        //     text: 'Login',
+        //     path: '/',
+        //     icon: <AccountCircleOutlined color="secondary"/>
+        // },
         {
             text: 'Home',
             path: '/',
@@ -54,14 +111,16 @@ export default function Layout({ children }){
                                 <PlaylistAddIcon/>
                             </Badge>
                         </IconButton>
+                        <a href={url}>
                         <IconButton 
                             size="large"
                             edge="end"
                             aria-label="account of current user"
                             color="inherit"
                         >
-                            <Avatar alt="Login" src="/static/images/avatar/2.jpg" />
+                            <Avatar alt="/static/images/avatar/2.jpg" src={Object.keys(userData).length !== 0 ? userData['images'][0]['url'] : "/static/images/avatar/2.jpg"}/>
                         </IconButton>
+                        </a>
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -90,7 +149,7 @@ export default function Layout({ children }){
                     {menuItems.map(item => (
                         <ListItemButton
                             key={item.text}   
-                            onClick={() => navigate(item.path)}
+                            onClick={() => navigate(item.path, {state: {code : token, data : userData}})}    
                             sx={location.pathname === item.path ? {background: '#f4f4f4'} : null}
                         >
                             <ListItemIcon>
