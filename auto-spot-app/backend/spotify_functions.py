@@ -8,7 +8,6 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 import spotipy.util as util
-from sqlalchemy import false
 from secretCredentials import *
 import os # removing cache files
 
@@ -290,10 +289,8 @@ def create_playlist(token : str, pl_name: str, username: str = 'nekkedgramma'):
     sp = spotipy.Spotify(auth=token)
     # create
     uri = sp.user_playlist_create(user = username, name = pl_name, public = False, collaborative = True)
-    
-    id = uri['id']
-    print(id)
-    
+    id = dict()
+    id['id'] = uri['id']
     return id
 
 # given playlist id, add to playlist

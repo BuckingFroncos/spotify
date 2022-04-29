@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, Avatar, Badge} from '@mui/material'
 import { AccountCircleOutlined, AddCircleOutlineOutlined, Home } from '@mui/icons-material'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Login from '../pages/Login';
+import { Button } from '@mui/material';
 
 const drawerWidth = 240
 
@@ -29,6 +30,11 @@ export default function Layout({ children }){
     url += "&show_dialog=true"
     url += "&scope=" + scopes
 
+    const logout = () => {
+        window.localStorage.clear();
+        window.location.href = "/"
+    }
+
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code')
@@ -50,6 +56,7 @@ export default function Layout({ children }){
               setToken(data)
               console.log(data)
               let tk = data['access_token']
+              window.localStorage.setItem("token", tk);
               console.log(tk)
               setToken(tk)
               fetch(`Logged/?code=${tk}`)
@@ -58,20 +65,23 @@ export default function Layout({ children }){
               }).then(data => {
                 setUserData(data)
                 console.log(data)
+                let image = data['images'][0]['url'] 
+                window.localStorage.setItem("account-image", image)
+                window.localStorage.setItem("userID", data['id'])
               })
             })
       }
     }, [])
 
     const menuItems = [
-        // { May need this page still
+        // { 
         //     text: 'Login',
         //     path: '/',
         //     icon: <AccountCircleOutlined color="secondary"/>
         // },
         {
             text: 'Home',
-            path: '/',
+            path: '/home',
             icon: <Home color="secondary"/>
         },
         {
@@ -111,6 +121,9 @@ export default function Layout({ children }){
                                 <PlaylistAddIcon/>
                             </Badge>
                         </IconButton>
+                        <Button color="secondary" onClick={logout}>
+                            Log Out
+                        </Button>
                         <a href={url}>
                         <IconButton 
                             size="large"
@@ -149,7 +162,16 @@ export default function Layout({ children }){
                     {menuItems.map(item => (
                         <ListItemButton
                             key={item.text}   
-                            onClick={() => navigate(item.path, {state: {code : token, data : userData}})}    
+                            onClick={() => {
+                                if(window.localStorage.length === 0)
+                                {
+                                    alert("Please Login First")
+                                }
+                                else
+                                {
+                                    navigate(item.path)
+                                }
+                            }}
                             sx={location.pathname === item.path ? {background: '#f4f4f4'} : null}
                         >
                             <ListItemIcon>
