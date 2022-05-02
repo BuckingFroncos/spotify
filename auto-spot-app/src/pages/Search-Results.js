@@ -1,13 +1,14 @@
-import { Grid, Typography, Card, Box, CardContent, CardMedia, IconButton} from "@mui/material"
+import { Grid, Typography, Card, Box, CardContent, CardMedia, IconButton, Button} from "@mui/material"
 import React, { useState } from "react"
 import SearchCard from "../components/SearchCard"
 import { useParams } from "react-router-dom"
-import { ArrowBackRounded } from "@mui/icons-material"
+import { AddCircleOutlineRounded, ArrowBackRounded } from "@mui/icons-material"
 
 export default function DisplayResults(){
     const [songs, setSongs] = useState({});
     const [retrieve, setRetrieve] = useState();
-    const {artist, uri} = useParams();
+    const {name, uri} = useParams();
+    const artist = undefined
     const audioStyle = {
         width:'100%',
         background: '#f1f3f4',
@@ -16,17 +17,19 @@ export default function DisplayResults(){
     };
 
     const getSongsList = () => {
-        if (uri !== null && artist !== null && !retrieve){
+        if (uri !== null && !retrieve){
+            console.log(name)
             fetch(`/songsearch/?uri=${uri}`)
             .then(res => {
                 return res.json();
             })
             .then(data => {
                 setSongs(data)
-                console.log(`Retrieved ${artist}'s Songs`)
+                console.log(data)
             })
             setRetrieve(true)
         }
+
 
         return(
             <Box
@@ -40,7 +43,7 @@ export default function DisplayResults(){
                 }}
             >
             
-                <IconButton aria-label="back">
+                <IconButton aria-label="back" onClick={() => {window.location.href = "/create"}}>
                     <ArrowBackRounded/>
                 </IconButton>
                     
@@ -61,6 +64,38 @@ export default function DisplayResults(){
         </>
     );
 
+    const addSong = (song) => {
+        const token = window.sessionStorage.getItem('token')
+        const userID = window.sessionStorage.getItem('userID')
+        const playlist = window.sessionStorage.getItem('playlist-id')
+        console.log(song)
+        fetch(`/addSong/?token=${token}&name=${playlist}&user=${userID}&song=${song}`).then(res => {
+            if(res){
+                alert("Song Has Been Added")
+            }
+            else{
+                alert("Song was not Added")
+            }
+
+        })
+
+    }
+
+    const addTopArtistsSongs = () => {
+        const token = window.sessionStorage.getItem('token')
+        const userID = window.sessionStorage.getItem('userID')
+        const playlist = window.sessionStorage.getItem('playlist-id')
+        fetch(`/addArtist/?token=${token}&name=${playlist}&user=${userID}&artist=${uri}`).then(res => {
+            if(res){
+                alert("Song Has Been Added")
+            }
+            else{
+                alert("Song was not Added")
+            }
+        })
+
+    }
+
     const getContent = () =>(
         <>
             {
@@ -69,6 +104,14 @@ export default function DisplayResults(){
                     rowSpacing={3}
                     columnSpacing={{xs: 1, sm: 2, md: 3}}
                 >
+                <Button sx={{
+                    backgroundColor : '#1ed760',
+                    gridColumn : '1 / 4',
+                    gridRow : '3',
+                    "&:hover" : {
+                    backgroundColor : "#0da251",
+                        },
+                    }} fullWidth={true} endIcon={<AddCircleOutlineRounded/>} onClick={() => {addTopArtistsSongs()}}>Add {name}'s Top Tracks</Button>
                     {Object.keys(songs).map(( key ) => 
                         <Grid 
                             item key={key}
@@ -115,6 +158,14 @@ export default function DisplayResults(){
                                         alt={songs[key][2].length === 0 ? 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640' : 
                                         songs[key][2]}
                                     />
+                                    <Button sx={{
+                                        backgroundColor : '#1ed760',
+                                        gridColumn : '1 / 4',
+                                        gridRow : '3',
+                                        "&:hover" : {
+                                            backgroundColor : "#0da251",
+                                        },
+                                    }} fullWidth={true} endIcon={<AddCircleOutlineRounded/>} onClick={() => {addSong(key)}}>Add Song</Button>
                             </Card>
                         </Grid>
                     )}

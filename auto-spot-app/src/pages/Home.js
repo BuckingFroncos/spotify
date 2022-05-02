@@ -75,17 +75,26 @@ export default function Home() {
     const [playlist, setPlaylist] = useState();
 
     const createPlaylist = () => {
-      const token = window.localStorage.getItem('token')
-      const userID = window.localStorage.getItem('userID')
-      console.log(`${token} : ${userID} : ${playlist}`)
-      fetch(`Createplaylist/?token=${token}&name=${playlist}&user=${userID}`)
-      .then(res => {
-        console.log("HERE")
-        return res.json()
-      }).then(data => {
-        console.log(data)
-        window.localStorage.setItem('playlist-id', data['id'])
-      })
+      if(playlist !== undefined && playlist !== ""){
+        const token = window.sessionStorage.getItem('token')
+        const userID = window.sessionStorage.getItem('userID')
+        console.log(`${token} : ${userID} : ${playlist}`)
+        fetch(`Createplaylist/?token=${token}&name=${playlist}&user=${userID}`)
+        .then(res => {
+          console.log("HERE")
+          return res.json()
+        }).then(data => {
+          console.log(data)
+          window.sessionStorage.setItem('playlist-id', data['id'])
+         window.sessionStorage.setItem('playlist-name', playlist)
+         console.log(`${playlist} Has Been Created`)
+         window.location.href = '/create'
+        })
+      }
+      else {
+        console.log(playlist)
+      }
+
     } 
 
 
@@ -102,7 +111,7 @@ export default function Home() {
                 fullWidth={true}
                 variant="outlined"
                 required
-                label="Playlist Name"
+                label="Enter Playlist Name"
                 onChange={(e) => {
                   setPlaylist(e.target.value)
                   console.log(e.target.value)
@@ -116,8 +125,8 @@ export default function Home() {
                   }}
                   fullWidth={false}
                   variant="contained"
-                  color="primary"
-                  onClick={() => {createPlaylist()}}
+                  color="secondary"
+                  onClick={createPlaylist}
                   type="submit">
                       <Typography
                           variant="h5"

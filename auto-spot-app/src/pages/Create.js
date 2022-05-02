@@ -1,9 +1,9 @@
 import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem} from "@mui/material"
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
-import {useNavigate} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
 import './Create.css'
 
 export default function Create() {
@@ -11,11 +11,23 @@ export default function Create() {
     const [info, setInfo] = useState({})
     const [choice, setChoice] = useState('Artist')
     const navigate = useNavigate()
+    const location = useLocation()
+    const playlist = window.sessionStorage.getItem('playlist-name')
+    
+    console.log(location.state)
+    console.log("Playlist: " + window.sessionStorage.getItem('playlist-id'))
     const imageStyle = {
         borderRadius: '2% 2% 0px 0px',
         objectFit: 'cover',
         cursor: 'pointer',
         transition: 'opacity .3s linear',
+    }
+
+    const playlistCreated = (playlist) => {
+        if (playlist !== null){
+            return true
+        }
+        return false
     }
 
     const getHeader = () => {
@@ -168,6 +180,30 @@ export default function Create() {
     );
 
     return(
+
+        <div>
+                {
+                    playlistCreated(playlist) ? 
+                    (
+                        <Typography 
+                        sx={{
+                            backgroundColor: '#f5f5f5',
+                            borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
+                            marginY: '1vh',
+                        }}variant="h4" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
+                    ) 
+                    : 
+                    (
+                        <Typography 
+                        sx={{
+                            backgroundColor: '#f5f5f5',
+                            borderbottom: '2px solid rgba(0, 0, 0, 0.15)',
+                            marginY: '1vh'
+                        }}
+                        variant="h4" color="secondary">No Playlist Has Been Created</Typography>
+                    )
+                } 
+
         <Grid 
             item 
             xs={12} //Grid width, how much space an item should take based on device's size
@@ -180,5 +216,6 @@ export default function Create() {
                 content={Object.keys(info).length === 0 || input === "" ? getDefaultContent() : getContent() }
             />
         </Grid>
+        </div>
     )
 }

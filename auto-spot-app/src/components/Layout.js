@@ -31,8 +31,15 @@ export default function Layout({ children }){
     url += "&scope=" + scopes
 
     const logout = () => {
-        window.localStorage.clear();
+        window.sessionStorage.clear();
         window.location.href = "/"
+    }
+
+    const logged = () => {
+        console.log(window.location.href)
+        if(window.sessionStorage.length !== 0 && window.location.href === 'http://localhost:3000/?code'){
+            window.location.href = "/home";
+        }
     }
 
     useEffect(() => {
@@ -56,7 +63,7 @@ export default function Layout({ children }){
               setToken(data)
               console.log(data)
               let tk = data['access_token']
-              window.localStorage.setItem("token", tk);
+              window.sessionStorage.setItem("token", tk);
               console.log(tk)
               setToken(tk)
               fetch(`Logged/?code=${tk}`)
@@ -66,8 +73,9 @@ export default function Layout({ children }){
                 setUserData(data)
                 console.log(data)
                 let image = data['images'][0]['url'] 
-                window.localStorage.setItem("account-image", image)
-                window.localStorage.setItem("userID", data['id'])
+                window.sessionStorage.setItem("account-image", image)
+                window.sessionStorage.setItem("userID", data['id'])
+                window.location.href = "http://localhost:3000/"
               })
             })
       }
@@ -90,6 +98,19 @@ export default function Layout({ children }){
             icon: <AddCircleOutlineOutlined color = "secondary"/>
         }, 
     ]
+
+    const getImage = () => {
+        if(Object.keys(userData).length !== 0){
+            return userData['images'][0]['url']
+        }
+        else if(window.sessionStorage.getItem('account-image') !== null){
+            return window.sessionStorage.getItem('account-image')
+        }
+
+        return "/static/images/avatar/2.jpg"
+
+    }
+
 
     return(
         <Box
@@ -131,7 +152,7 @@ export default function Layout({ children }){
                             aria-label="account of current user"
                             color="inherit"
                         >
-                            <Avatar alt="/static/images/avatar/2.jpg" src={Object.keys(userData).length !== 0 ? userData['images'][0]['url'] : "/static/images/avatar/2.jpg"}/>
+                            <Avatar alt="/static/images/avatar/2.jpg" src={getImage()} alt="/static/images/avatar/2.jpg"/>
                         </IconButton>
                         </a>
                     </Box>
@@ -163,7 +184,7 @@ export default function Layout({ children }){
                         <ListItemButton
                             key={item.text}   
                             onClick={() => {
-                                if(window.localStorage.length === 0)
+                                if(window.sessionStorage.length === 0)
                                 {
                                     alert("Please Login First")
                                 }
@@ -192,6 +213,7 @@ export default function Layout({ children }){
                 <Box sx= {theme => theme.mixins.toolbar}></Box>
                 {children}
             </Box>
+            {logged()}
         </Box>
     );
 }
