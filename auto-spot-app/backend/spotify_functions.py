@@ -294,33 +294,35 @@ def create_playlist(token : str, pl_name: str, username: str = 'nekkedgramma'):
     return id
 
 # given playlist id, add to playlist
-def add_song(pl_id: str, track_uri: str, username: str = 'nekkedgramma', sp = None):
+def add_song(token : str, pl_id: str, track_uri: str, username: str = 'nekkedgramma'):
     # credentials
-    if sp is not None:
-        try:
-            pl_info = sp.playlist(pl_id)
-            owner = pl_info['owner']
-            id = owner['id']
-            # print(id)
-            sp.current_user_follow_playlist(pl_id)
-        except:
-            pass
-        pass
-    else:
-        scope = 'playlist-modify-private'
-        token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
-        sp = spotipy.Spotify(auth=token)
-
+    # if sp is not None:
+    #     try:
+    #         pl_info = sp.playlist(pl_id)
+    #         owner = pl_info['owner']
+    #         id = owner['id']
+    #         # print(id)
+    #         sp.current_user_follow_playlist(pl_id)
+    #     except:
+    #         pass
+    #     pass
+    # else:
+    #     scope = 'playlist-modify-private'
+    #     token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
+    #     sp = spotipy.Spotify(auth=token)
+    sp = spotipy.Spotify(auth=token)
     # add track
     sp.user_playlist_add_tracks(user = username, playlist_id=pl_id, tracks=[track_uri])
-
     return True
 
 # given an artist, add top songs to playlist, returns true upon success
-def add_song_via_artist(pl_id: str, artist_uri: str):
+def add_song_via_artist(token: str, pl_id: str, artist_uri: str, username: str):
+    print(artist_uri)
     track_dict = get_songs(artist_uri)
+    print(track_dict)
     for track_uri in track_dict:
-        success = add_song(pl_id, track_uri)
+        print(track_uri)
+        success = add_song(token, pl_id, track_uri, username)
         if not success:
             return False
 
