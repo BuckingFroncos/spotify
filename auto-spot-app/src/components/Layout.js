@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, Avatar, Badge} from '@mui/material'
 import { AccountCircleOutlined, AddCircleOutlineOutlined, Home } from '@mui/icons-material'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Login from '../pages/Login';
 import { Button } from '@mui/material';

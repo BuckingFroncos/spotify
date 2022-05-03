@@ -92,10 +92,10 @@ export default function Create() {
                     }}
                 >
                     <FormControl sx={{ m: 1, flexShrink: 1}}>
-                        <InputLabel id="Option-label">Option</InputLabel>
+                        <InputLabel id="Filter-label">Filter</InputLabel>
                         <Select
-                            labelId="Option-label"
-                            id="Option"
+                            labelId="Filter-label"
+                            id="Filter"
                             value={choice}
                             defaultValue="Artist"
                             label="Choice"

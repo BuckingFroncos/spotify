@@ -136,8 +136,7 @@ def search_for_related_artists(artist_uri: str):
     similar_artist = sp.artist_related_artists(artist_uri)
 
     # creating artist dict
-    adict = {}
-
+    adict = dict()
     # iterate through all search results
     for artist in similar_artist["artists"]:
         name = (artist["name"])
@@ -343,25 +342,14 @@ def login(username: str = 'nekkedgramma'):
     return token
 
 
-# def return_Credentials():
-#     s = ""
-#     s += client_id + redirect_uri + client_secret 
-#     return s
-
-
 def authenticate(token: str):
     username = "nekkedgramma"
     scope = 'playlist-modify-private user-read-private'
-    # Login, then call it again/ call authenicate to save access token and return user Profile Information
-    # token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=False) # THIS MAKES IT WORK
     sp = spotipy.Spotify(auth=token)
-    print("Step 2")
     userInfo = sp.current_user()
-    print("DONE")
     print(userInfo)
     info = dict()
     info = sp.current_user()
-    # info['playlists'] = sp.current_user_playlists()
     return info
 
 
