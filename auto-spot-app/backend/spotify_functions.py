@@ -359,6 +359,19 @@ def clear_cache():
         if os.path.isfile(fname) and fname.startswith(".cache"):
             os.remove(fname)
 
+# check playlist, if valid, return name
+def get_playlist_name(pl_id: str):
+    sp = spotipy.Spotify(auth=token)
+
+    try:
+        playlist = sp.playlist(pl_id)
+        playlist_name = playlist["name"]
+    except:
+        print("ERROR: Playlist does not exist")
+        playlist_name = None
+    
+    return playlist_name
+
 
 if __name__ == "__main__":
     token = login()
