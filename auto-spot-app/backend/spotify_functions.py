@@ -315,9 +315,10 @@ def add_song(token : str, ownerToken : str, pl_id: str, track_uri: str, username
     
     if ownerToken is not None: # If it is collaborative adding, check if the owner's token was passed to authorize by owner and add songs
         token = ownerToken
+        username = id
     sp = spotipy.Spotify(auth=token)
     # add track
-    sp.user_playlist_add_tracks(user = id, playlist_id=pl_id, tracks=[track_uri])
+    sp.user_playlist_add_tracks(user = username, playlist_id=pl_id, tracks=[track_uri])
     return True
 
 # given an artist, add top songs to playlist, returns true upon success
