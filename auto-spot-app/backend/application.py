@@ -61,6 +61,13 @@ def createPlaylist():
     return create_playlist(var_token, var_name, var_user)
 
 
+@application.route('/collab/')
+def collabPlaylist():
+    var_token = request.args.get("token", None)
+    var_id = request.args.get("id", None)
+    return get_playlist_name(var_token, var_id)
+
+
 @application .route('/artists/')
 def test():
     return render_template('artists.html')

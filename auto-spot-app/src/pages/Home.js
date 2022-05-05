@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from "react"
 import { Button, Box, Typography, TextField} from "@mui/material"
+import { AlternateEmailRounded } from "@mui/icons-material";
 
 
 export default function Home() {
@@ -7,11 +8,6 @@ export default function Home() {
   const TOKEN = "https://accounts.spotify.com/api/token"
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code')
-
-
-  // const [token, setToken] = useState(window.localStorage.getItem('token'))
-  // const [userID, setUserID] = useState({})
-  // const [userData, setUserData] = useState({})
 
   var client_id = 'b1276abbd1904e0194659f0381e8f6f8'; // Your client id
   var client_secret = '1b81013fb5b447029cd9b1cbe9976c39'; // Your secret
@@ -26,33 +22,6 @@ export default function Home() {
   url += "&show_dialog=true"
   url += "&scope=" + scopes
 
-
-    // useEffect(() => {
-    //   const tk = window.localStorage.getItem('token')
-    //   const keys = window.localStorage.length
-    //   if(keys !== 0) {
-    //     console.log(tk)
-    //     setToken(tk)
-    // } else
-    // {
-    // }
-    // }, [token])
-
-
-
-  //   useEffect(() => {
-  //     const params = new URLSearchParams(window.location.search);
-  //     const code = params.get('code')
-  //     let url = TOKEN
-  //     console.log(url)
-  //     console.log(code)
-  //     console.log(userData)
-  //     if(code !== null && Object.keys(userData).length === 0) {
-  //       console.log("HELLO")
-  //       setToken(window.localStorage.getItem('token'))
-  //       setUserID(window.localStorage.getItem('userID'))
-  //   }
-  // }, [userData])
 
 
       const getDefaultContent = () => {
@@ -73,6 +42,7 @@ export default function Home() {
 
 
     const [playlist, setPlaylist] = useState();
+    const [playlistID, setPlaylistID] = useState();
 
     const createPlaylist = () => {
       if(playlist !== undefined && playlist !== ""){
@@ -96,6 +66,28 @@ export default function Home() {
       }
 
     } 
+
+
+
+    const collabPlaylist = () => {
+      if(playlistID !== undefined && playlistID !== ""){
+        const token = window.sessionStorage.getItem('token')
+        fetch(`/collab/?token=${token}&id=${playlistID}`)
+        .then(res => {
+          if(res.status === 200) return res.text()
+          else {
+            alert(`There is no playlist with the ID: ${playlistID}`)
+          }
+        }).then(data => {
+          console.log(data)
+          window.sessionStorage.setItem('playlist-id', playlistID)
+          window.sessionStorage.setItem('playlist-name', data)
+          window.location.href = '/create'
+        })
+      }
+
+    } 
+
 
 
 
@@ -137,7 +129,43 @@ export default function Home() {
                           }}>
                           Create Playlist
                       </Typography>
-                  </Button>           
+                  </Button>   
+                        
+                <TextField
+                sx={{
+                    margin: '2vmin',
+                }}
+                id="PlaylistID-Field"
+                fullWidth={true}
+                variant="outlined"
+                required
+                label="Enter Playlist-ID To Start Collabing"
+                onChange={(e) => {
+                  setPlaylistID(e.target.value)
+                  console.log(e.target.value)
+                }}
+                color="secondary">
+                </TextField>
+                <Button
+                  sx={{
+                      padding: '0.6vmax 20vmax',
+                      marginX: '10vw',
+                  }}
+                  fullWidth={false}
+                  variant="contained"
+                  color="secondary"
+                  onClick={collabPlaylist}
+                  type="submit">
+                      <Typography
+                          variant="h5"
+                          sx={{
+                              color: '#FFF',
+                              fontWeight: 450,
+                              margin: '0'
+                          }}>
+                          Retrieve Playlist
+                      </Typography>
+                  </Button>        
               </Box>
       );
     }

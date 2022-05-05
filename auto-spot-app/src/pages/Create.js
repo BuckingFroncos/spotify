@@ -13,6 +13,7 @@ export default function Create() {
     const navigate = useNavigate()
     const location = useLocation()
     const playlist = window.sessionStorage.getItem('playlist-name')
+    const id =  window.sessionStorage.getItem('playlist-id')
     
     console.log(location.state)
     console.log("Playlist: " + window.sessionStorage.getItem('playlist-id'))
@@ -185,12 +186,20 @@ export default function Create() {
                 {
                     playlistCreated(playlist) ? 
                     (
-                        <Typography 
-                        sx={{
-                            backgroundColor: '#f5f5f5',
-                            borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
-                            marginY: '1vh',
-                        }}variant="h4" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
+                        <div>   
+                            <Typography 
+                            sx={{
+                                backgroundColor: '#f5f5f5',
+                                borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
+                                marginY: '1vh',
+                            }}variant="h4" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
+                            <Typography 
+                            sx={{
+                                backgroundColor: '#f5f5f5',
+                                borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
+                                marginY: '1vh',
+                            }}variant="h4" color="secondary">Share to Collab: {id}</Typography>
+                        </div>
                     ) 
                     : 
                     (

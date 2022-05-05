@@ -225,7 +225,7 @@ export default function DisplayResults(){
             }}
         >
 
-<Box
+            <Box
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
@@ -235,14 +235,14 @@ export default function DisplayResults(){
                     paddingRight: '20px',
                 }}
             >
-            <Link to={{
-                pathname: "/create",
-                state: {input : name},
-                }}>
-                <IconButton aria-label="back"> 
-                    <ArrowBackRounded/>
-                </IconButton>
-            </Link>
+                <Link to={{
+                    pathname: "/create",
+                    state: {input : name},
+                    }}>
+                    <IconButton aria-label="back"> 
+                        <ArrowBackRounded/>
+                    </IconButton>
+                </Link>
             </Box>
 
             <SearchCard
@@ -279,7 +279,6 @@ export default function DisplayResults(){
                                 <IconButton
                                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                                 >
-                                    <relatedOutlined/>
                                 </IconButton>
                                 }
                             />

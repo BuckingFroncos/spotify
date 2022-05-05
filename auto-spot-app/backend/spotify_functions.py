@@ -360,7 +360,7 @@ def clear_cache():
             os.remove(fname)
 
 # check playlist, if valid, return name
-def get_playlist_name(pl_id: str):
+def get_playlist_name(token :str, pl_id: str):
     sp = spotipy.Spotify(auth=token)
 
     try:
