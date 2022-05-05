@@ -303,6 +303,7 @@ def add_song(token : str, ownerToken : str, pl_id: str, track_uri: str, username
             pl_info = sp.playlist(pl_id)
             owner = pl_info['owner']
             id = owner['id']
+            username = id
             print(id)
             sp.current_user_follow_playlist(pl_id)
         except:
@@ -315,7 +316,6 @@ def add_song(token : str, ownerToken : str, pl_id: str, track_uri: str, username
     
     if ownerToken is not None: # If it is collaborative adding, check if the owner's token was passed to authorize by owner and add songs
         token = ownerToken
-        username = id
     sp = spotipy.Spotify(auth=token)
     # add track
     sp.user_playlist_add_tracks(user = username, playlist_id=pl_id, tracks=[track_uri])
