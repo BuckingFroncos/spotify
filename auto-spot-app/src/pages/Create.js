@@ -12,9 +12,9 @@ export default function Create() {
     const [choice, setChoice] = useState('Artist')
     const navigate = useNavigate()
     const location = useLocation()
-    const playlist = window.sessionStorage.getItem('playlist-name')
+    const [playlist, setPlaylist] = useState(window.sessionStorage.getItem('playlist-name'))
     const id =  window.sessionStorage.getItem('playlist-id')
-    
+    const ownerToken = window.sessionStorage.getItem('token')
     console.log(location.state)
     console.log("Playlist: " + window.sessionStorage.getItem('playlist-id'))
     const imageStyle = {
@@ -186,19 +186,63 @@ export default function Create() {
                 {
                     playlistCreated(playlist) ? 
                     (
-                        <div>   
+                        <div>  
+                            <Box
+                            sx={{
+                                display : 'flex',
+                                flexDirection : 'row',
+                                flexWrap : 'no-wrap',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                            }}>
                             <Typography 
                             sx={{
                                 backgroundColor: '#f5f5f5',
                                 borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
                                 marginY: '1vh',
                             }}variant="h4" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
-                            <Typography 
+                            <Button
                             sx={{
-                                backgroundColor: '#f5f5f5',
-                                borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
                                 marginY: '1vh',
-                            }}variant="h4" color="secondary">Share to Collab: {id}</Typography>
+                            }}
+                                fullWidth={false}
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => {
+                                    window.sessionStorage.removeItem('playlist-id')
+                                    window.sessionStorage.removeItem('playlist-name')
+                                    setPlaylist(window.sessionStorage.getItem('playlist-name'))
+                                }}
+                                type="submit">
+                                    <Typography
+                                        variant="h5"
+                                        sx={{
+                                            color: '#FFF',
+                                            fontWeight: 450,
+                                            margin: '0'
+                                        }}>
+                                        Done Adding Songs
+                                    </Typography>
+                            </Button>  
+                            </Box>
+                            <Box
+                            sx={{
+                                display : 'flex',
+                                flexDirection : 'row',
+                                flexWrap : 'wrap',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                            }}>
+                                <Typography 
+                                sx={{
+                                    backgroundColor: '#f5f5f5',
+                                    borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
+                                    marginY: '1vh',
+                                }}variant="h5" color="secondary">Share to Collab:</Typography>
+                                <Typography>
+                                {id}&{ownerToken}
+                                </Typography>
+                            </Box>
                         </div>
                     ) 
                     : 

@@ -292,36 +292,42 @@ def create_playlist(token : str, pl_name: str, username: str = 'nekkedgramma'):
     id['id'] = uri['id']
     return id
 
+
 # given playlist id, add to playlist
-def add_song(token : str, pl_id: str, track_uri: str, username: str = 'nekkedgramma'):
+def add_song(token : str, ownerToken : str, pl_id: str, track_uri: str, username: str = 'nekkedgramma'):
     # credentials
-    # if sp is not None:
-    #     try:
-    #         pl_info = sp.playlist(pl_id)
-    #         owner = pl_info['owner']
-    #         id = owner['id']
-    #         # print(id)
-    #         sp.current_user_follow_playlist(pl_id)
-    #     except:
-    #         pass
-    #     pass
+    # If token has been passed, authorize the user and follow the playlist if not the owner
+    if token is not None:
+        try:
+            sp = spotipy.Spotify(auth=token)
+            pl_info = sp.playlist(pl_id)
+            owner = pl_info['owner']
+            id = owner['id']
+            print(id)
+            sp.current_user_follow_playlist(pl_id)
+        except:
+            pass
+        pass
     # else:
-    #     scope = 'playlist-modify-private'
-    #     token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
-    #     sp = spotipy.Spotify(auth=token)
+        # scope = 'playlist-modify-private'
+        # token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, show_dialog=True)
+        # sp = spotipy.Spotify(auth=token)
+    
+    if ownerToken is not None: # If it is collaborative adding, check if the owner's token was passed to authorize by owner and add songs
+        token = ownerToken
     sp = spotipy.Spotify(auth=token)
     # add track
-    sp.user_playlist_add_tracks(user = username, playlist_id=pl_id, tracks=[track_uri])
+    sp.user_playlist_add_tracks(user = id, playlist_id=pl_id, tracks=[track_uri])
     return True
 
 # given an artist, add top songs to playlist, returns true upon success
-def add_song_via_artist(token: str, pl_id: str, artist_uri: str, username: str):
+def add_song_via_artist(token: str, ownerToken : str, pl_id: str, artist_uri: str, username: str):
     print(artist_uri)
     track_dict = get_songs(artist_uri)
     print(track_dict)
     for track_uri in track_dict:
         print(track_uri)
-        success = add_song(token, pl_id, track_uri, username)
+        success = add_song(token, ownerToken, pl_id, track_uri, username)
         if not success:
             return False
 
