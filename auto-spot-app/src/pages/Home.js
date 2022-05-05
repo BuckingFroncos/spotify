@@ -56,7 +56,8 @@ export default function Home() {
         }).then(data => {
           console.log(data)
           window.sessionStorage.setItem('playlist-id', data['id'])
-         window.sessionStorage.setItem('playlist-name', playlist)
+          window.sessionStorage.setItem('playlist-name', playlist)
+          window.sessionStorage.setItem('collabing', false)
          console.log(`${playlist} Has Been Created`)
          window.location.href = '/create'
         })
@@ -71,8 +72,14 @@ export default function Home() {
 
     const collabPlaylist = () => {
       if(playlistID !== undefined && playlistID !== ""){
+        const pl_id  = playlistID.toString()
+        const id = pl_id.split('&')
+        const play = id[0]
+        const owner = id[1]
+        console.log(play)
+        console.log(owner)
         const token = window.sessionStorage.getItem('token')
-        fetch(`/collab/?token=${token}&id=${playlistID}`)
+        fetch(`/collab/?token=${owner}&id=${playlistID}`)
         .then(res => {
           if(res.status === 200) return res.text()
           else {
@@ -82,6 +89,8 @@ export default function Home() {
           console.log(data)
           window.sessionStorage.setItem('playlist-id', playlistID)
           window.sessionStorage.setItem('playlist-name', data)
+          window.sessionStorage.setItem('collabOwnerToken', owner)
+          window.sessionStorage.setItem('collabing', true)
           window.location.href = '/create'
         })
       }
@@ -139,7 +148,7 @@ export default function Home() {
                 fullWidth={true}
                 variant="outlined"
                 required
-                label="Enter Playlist-ID To Start Collabing"
+                label="Enter Share Token To Start Collabing"
                 onChange={(e) => {
                   setPlaylistID(e.target.value)
                   console.log(e.target.value)

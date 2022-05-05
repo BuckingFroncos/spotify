@@ -20,7 +20,7 @@ export default function Layout({ children }){
     var client_id = 'b1276abbd1904e0194659f0381e8f6f8'; // Your client id
     var client_secret = '1b81013fb5b447029cd9b1cbe9976c39'; // Your secret
     var redirect_uri = 'http://localhost:3000/'; // Your redirect uri
-    var scopes = 'user-read-private user-read-email playlist-modify-private'
+    var scopes = 'user-read-private user-read-email playlist-modify-private playlist-modify-public'
   
     const AUTHORIZE = "https://accounts.spotify.com/authorize"
     let url = AUTHORIZE;
@@ -46,9 +46,9 @@ export default function Layout({ children }){
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code')
         let url = TOKEN
-        console.log(url)
-        console.log(code)
-        console.log(userData)
+        // console.log(url)
+        // console.log(code)
+        // console.log(userData)
         if(code !== null && Object.keys(userData).length === 0){
           fetch(url, {
             method: 'POST',

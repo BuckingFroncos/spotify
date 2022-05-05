@@ -37,19 +37,21 @@ def userInfo():
 @application.route('/addSong/')
 def addSong():
     var_token = request.args.get("token", None)
+    var_owner = request.args.get("owner", None)
     var_name = request.args.get("name", None)
     var_user = request.args.get("user", None)
     var_song = request.args.get("song", None)
-    return add_song(var_token, var_name, var_song, var_user)
+    return add_song(var_token, var_owner, var_name, var_song, var_user)
 
 
 @application.route('/addArtist/')
 def addArtist():
     var_token = request.args.get("token", None)
+    var_owner = request.args.get("owner", None)
     var_name = request.args.get("name", None)
     var_user = request.args.get("user", None)
     var_artist = request.args.get("artist", None)
-    return add_song_via_artist(var_token, var_name, var_artist, var_user)
+    return add_song_via_artist(var_token, var_owner, var_name, var_artist, var_user)
 
 
 

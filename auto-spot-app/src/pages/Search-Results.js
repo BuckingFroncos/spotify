@@ -102,29 +102,45 @@ export default function DisplayResults(){
     );
 
     const addSong = (song) => {
-        const token = window.sessionStorage.getItem('token')
         const userID = window.sessionStorage.getItem('userID')
         const playlist = window.sessionStorage.getItem('playlist-id')
-        console.log(song)
-        fetch(`/addSong/?token=${token}&name=${playlist}&user=${userID}&song=${song}`).then(res => {
+        let token = window.sessionStorage.getItem('token')
+        let fetchUrl = ""
+        if(window.sessionStorage.getItem('collabing') === 'true'){
+            let ownertoken = window.sessionStorage.getItem('collabOwnerToken')
+            fetchUrl = `/addSong/?token=${token}&owner=${ownertoken}&name=${playlist}&user=${userID}&song=${song}`
+        } else{
+            token = window.sessionStorage.getItem('token')
+            fetchUrl = `/addSong/?token=${token}&name=${playlist}&user=${userID}&song=${song}`
+        }
+
+        fetch(fetchUrl).then(res => {
             if(res){
                 alert("Song Has Been Added")
             }
             else{
                 alert("Song was not Added")
             }
-
         })
 
     }
 
     const addTopArtistsSongs = () => {
-        const token = window.sessionStorage.getItem('token')
         const userID = window.sessionStorage.getItem('userID')
         const playlist = window.sessionStorage.getItem('playlist-id')
-        fetch(`/addArtist/?token=${token}&name=${playlist}&user=${userID}&artist=${uri}`).then(res => {
+        let token = window.sessionStorage.getItem('token')
+        let url = ""
+        if(window.sessionStorage.getItem('collabing') === 'true'){
+            let ownertoken = window.sessionStorage.getItem('collabOwnerToken')
+            url = `/addArtist/?token=${token}&owner=${ownertoken}&name=${playlist}&user=${userID}&artist=${uri}`
+        } else{
+            token = window.sessionStorage.getItem('token')
+            url = `/addArtist/?token=${token}&name=${playlist}&user=${userID}&artist=${uri}`
+        }
+        // const token = window.sessionStorage.getItem('token')
+        fetch(url).then(res => {
             if(res){
-                alert("Song Has Been Added")
+                alert("Songs Has Been Added")
             }
             else{
                 alert("Song was not Added")
