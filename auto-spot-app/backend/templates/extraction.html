@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block body %}
+<div class="recipe-images">
+    {%for image in images %}
+    <img class="item" src="{{image}}" alt="{{image}}">
+    {%endfor%}
+</div>
+{% endblock %}
