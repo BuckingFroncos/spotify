@@ -106,7 +106,7 @@ export default function DisplayResults(){
         const playlist = window.sessionStorage.getItem('playlist-id')
         let token = window.sessionStorage.getItem('token')
         let fetchUrl = ""
-        if(window.sessionStorage.getItem('collabing') === true){
+        if(window.sessionStorage.getItem('collabing') === 'true'){
             let ownertoken = window.sessionStorage.getItem('collabOwnerToken')
             fetchUrl = `/addSong/?token=${token}&owner=${ownertoken}&name=${playlist}&user=${userID}&song=${song}`
         } else{
@@ -130,7 +130,7 @@ export default function DisplayResults(){
         const playlist = window.sessionStorage.getItem('playlist-id')
         let token = window.sessionStorage.getItem('token')
         let url = ""
-        if(window.sessionStorage.getItem('collabing') === true){
+        if(window.sessionStorage.getItem('collabing') === 'true'){
             let ownertoken = window.sessionStorage.getItem('collabOwnerToken')
             url = `/addArtist/?token=${token}&owner=${ownertoken}&name=${playlist}&user=${userID}&artist=${uri}`
         } else{

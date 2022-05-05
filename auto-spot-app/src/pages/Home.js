@@ -148,7 +148,7 @@ export default function Home() {
                 fullWidth={true}
                 variant="outlined"
                 required
-                label="Enter Playlist-ID To Start Collabing"
+                label="Enter Share Token To Start Collabing"
                 onChange={(e) => {
                   setPlaylistID(e.target.value)
                   console.log(e.target.value)
