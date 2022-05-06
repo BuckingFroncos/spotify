@@ -53,6 +53,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         }
         
         print("Code: \(code)")
+        AuthManager.shared.exchangeCodeForToken(code: code, completion: )
     }
     
 }
