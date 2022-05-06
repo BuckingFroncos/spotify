@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, Avatar, Badge} from '@mui/material'
-import { AccountCircleOutlined, AddCircleOutlineOutlined, Home } from '@mui/icons-material'
+import { AddCircleOutlineOutlined, Home } from '@mui/icons-material'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
-import Login from '../pages/Login';
 import { Button } from '@mui/material';
 
 const drawerWidth = 240
@@ -14,7 +13,6 @@ export default function Layout({ children }){
     const location = useLocation()
 
     const TOKEN = "https://accounts.spotify.com/api/token"
-    const [token, setToken] = useState({})
     const [userData, setUserData] = useState({})
   
     var client_id = 'b1276abbd1904e0194659f0381e8f6f8'; // Your client id
@@ -46,9 +44,6 @@ export default function Layout({ children }){
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code')
         let url = TOKEN
-        // console.log(url)
-        // console.log(code)
-        // console.log(userData)
         if(code !== null && Object.keys(userData).length === 0){
           fetch(url, {
             method: 'POST',
@@ -60,12 +55,9 @@ export default function Layout({ children }){
             }).then(res => {
               return res.json()
             }).then(data => {
-              setToken(data)
-              console.log(data)
               let tk = data['access_token']
               window.sessionStorage.setItem("token", tk);
               console.log(tk)
-              setToken(tk)
               fetch(`Logged/?code=${tk}`)
               .then(res => {
                 return res.json()
@@ -82,11 +74,6 @@ export default function Layout({ children }){
     }, [])
 
     const menuItems = [
-        // { 
-        //     text: 'Login',
-        //     path: '/',
-        //     icon: <AccountCircleOutlined color="secondary"/>
-        // },
         {
             text: 'Home',
             path: '/home',
@@ -152,7 +139,7 @@ export default function Layout({ children }){
                             aria-label="account of current user"
                             color="inherit"
                         >
-                            <Avatar alt="/static/images/avatar/2.jpg" src={getImage()} alt="/static/images/avatar/2.jpg"/>
+                            <Avatar alt="/static/images/avatar/2.jpg" src={getImage()}/>
                         </IconButton>
                         </a>
                     </Box>

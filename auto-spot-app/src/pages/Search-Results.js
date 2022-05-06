@@ -1,7 +1,7 @@
 import { Grid, Typography, Card, Box, CardContent, CardMedia, IconButton, Button, ImageListItem, ImageListItemBar, ImageList } from "@mui/material"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import SearchCard from "../components/SearchCard"
-import { Link, useParams, useNavigate } from "react-router-dom"
+import { Link, useParams} from "react-router-dom"
 import { AddCircleOutlineRounded, ArrowBackRounded } from "@mui/icons-material"
 
 const imageStyle = {
@@ -14,10 +14,8 @@ const imageStyle = {
 
 export default function DisplayResults(){
     const [songs, setSongs] = useState({});
-    const [retrieve, setRetrieve] = useState();
+    //const [retrieve, setRetrieve] = useState();
     const [related, setRelated] = useState({})
-    const refArtist = useRef();
-    const navigate = useNavigate()
     const {name, uri} = useParams();
     const artist = undefined
     const audioStyle = {
@@ -37,43 +35,43 @@ export default function DisplayResults(){
             })
         }
 
-    const getSongsList = () => {
-        if (uri !== null && !retrieve){
-            window.sessionStorage.setItem('artist-uri', uri)
-            console.log(name)
-            fetch(`/songsearch/?uri=${uri}`)
-            .then(res => {
-                return res.json();
-            })
-            .then(data => {
-                setSongs(data)
-                console.log(data)
-            })
-            getRelatedArtists()
-        }
+    // const getSongsList = () => {
+    //     if (uri !== null && !retrieve){
+    //         window.sessionStorage.setItem('artist-uri', uri)
+    //         console.log(name)
+    //         fetch(`/songsearch/?uri=${uri}`)
+    //         .then(res => {
+    //             return res.json();
+    //         })
+    //         .then(data => {
+    //             setSongs(data)
+    //             console.log(data)
+    //         })
+    //         getRelatedArtists()
+    //     }
 
-        return(
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    backgroundColor: '#f5f5f5',
-                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                    paddingLeft: '20px',
-                    paddingRight: '20px',
-                }}
-            >
-            <Link to={{
-                pathname: "/create",
-                state: {input : name},
-                }}>
-                <IconButton aria-label="back"> 
-                    <ArrowBackRounded/>
-                </IconButton>
-            </Link>
-            </Box>
-        )
-    }
+    //     return(
+    //         <Box
+    //             sx={{
+    //                 display: 'flex',
+    //                 alignItems: 'center',
+    //                 backgroundColor: '#f5f5f5',
+    //                 borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    //                 paddingLeft: '20px',
+    //                 paddingRight: '20px',
+    //             }}
+    //         >
+    //         <Link to={{
+    //             pathname: "/create",
+    //             state: {input : name},
+    //             }}>
+    //             <IconButton aria-label="back"> 
+    //                 <ArrowBackRounded/>
+    //             </IconButton>
+    //         </Link>
+    //         </Box>
+    //     )
+    // }
 
     useEffect(() => {
         fetch(`/songsearch/?uri=${uri}`)

@@ -1,5 +1,5 @@
 import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem} from "@mui/material"
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
