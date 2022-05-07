@@ -51,9 +51,15 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         guard let code = component?.queryItems?.first(where: { $0.name == "code"})?.value else {
             return
         }
+        webView.isHidden = true // hidden the page we redirect to
         
         print("Code: \(code)")
-        AuthManager.shared.exchangeCodeForToken(code: code, completion: )
+        AuthManager.shared.exchangeCodeForToken(code: code){ [weak self] success in
+            DispatchQueue.main.async {
+                self?.navigationController?.popViewController(animated: true)
+                self?.completionHandler?(success)
+            }
+        }
     }
     
 }
