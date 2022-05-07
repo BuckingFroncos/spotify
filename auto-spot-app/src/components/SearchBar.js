@@ -14,7 +14,6 @@ export default function SearchBar({placeholder, onChange, searchBarWidth, sx}){
                 onChange={onChange}
                 sx={{
                     width: searchBarWidth,
-                    color: 'rgba(0, 0, 0, 0.6)',
                     fontSize:  '1.1rem',
                 }}
                 disableUnderline

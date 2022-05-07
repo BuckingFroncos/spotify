@@ -2,7 +2,6 @@ import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItem
 import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
-import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import {useLocation, useNavigate} from "react-router-dom"
 import './Create.css'
 
@@ -86,8 +85,7 @@ export default function Create() {
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        backgroundColor: '#f5f5f5',
-                        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                        borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
                         paddingLeft: '20px',
                         paddingRight: '20px',
                     }}
@@ -137,7 +135,7 @@ export default function Create() {
             {
                 <Typography 
                     align="center"
-                    sx={{ margin: '40px 16px', color: 'rgba(0, 0, 0, 0.6)', fontSize: '1.3rem'}}
+                    sx={{ margin: '40px 16px',  fontSize: '1.3rem'}}
                 >
                     Nothing found
                 </Typography>
@@ -165,13 +163,6 @@ export default function Create() {
                             />
                             <ImageListItemBar
                                 title={info[key][0]}
-                                actionIcon={
-                                <IconButton
-                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                >
-                                    <InfoOutlined/>
-                                </IconButton>
-                                }
                             />
                         </ImageListItem>
                     )}
@@ -183,79 +174,76 @@ export default function Create() {
     return(
 
         <div>
-                {
-                    playlistCreated(playlist) ? 
-                    (
-                        <div>  
-                            <Box
-                            sx={{
-                                display : 'flex',
-                                flexDirection : 'row',
-                                flexWrap : 'no-wrap',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}>
-                            <Typography 
-                            sx={{
-                                backgroundColor: '#f5f5f5',
-                                borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
-                                marginY: '1vh',
-                            }}variant="h4" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
-                            <Button
-                            sx={{
-                                marginY: '1vh',
-                            }}
-                                fullWidth={false}
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => {
-                                    window.sessionStorage.removeItem('playlist-id')
-                                    window.sessionStorage.removeItem('playlist-name')
-                                    setPlaylist(window.sessionStorage.getItem('playlist-name'))
-                                }}
-                                type="submit">
-                                    <Typography
-                                        variant="h5"
-                                        sx={{
-                                            color: '#FFF',
-                                            fontWeight: 450,
-                                            margin: '0'
-                                        }}>
-                                        Done Adding Songs
-                                    </Typography>
-                            </Button>  
-                            </Box>
-                            <Box
-                            sx={{
-                                display : 'flex',
-                                flexDirection : 'row',
-                                flexWrap : 'wrap',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}>
-                                <Typography 
-                                sx={{
-                                    backgroundColor: '#f5f5f5',
-                                    borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
-                                    marginY: '1vh',
-                                }}variant="h5" color="secondary">Share to Collab:</Typography>
-                                <Typography>
-                                {id}&{ownerToken}
-                                </Typography>
-                            </Box>
-                        </div>
-                    ) 
-                    : 
-                    (
+            {
+                playlistCreated(playlist) ? 
+                (
+                    <div>  
+                        <Box
+                        sx={{
+                            display : 'flex',
+                            flexDirection : 'row',
+                            flexWrap : 'no-wrap',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}>
                         <Typography 
                         sx={{
-                            backgroundColor: '#f5f5f5',
-                            borderbottom: '2px solid rgba(0, 0, 0, 0.15)',
-                            marginY: '1vh'
+                            borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
+                            marginY: '1vh',
+                        }}variant="h4" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
+                        <Button
+                        sx={{
+                            marginY: '1vh',
                         }}
-                        variant="h4" color="secondary">No Playlist Has Been Created</Typography>
-                    )
-                } 
+                            fullWidth={false}
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {
+                                window.sessionStorage.removeItem('playlist-id')
+                                window.sessionStorage.removeItem('playlist-name')
+                                setPlaylist(window.sessionStorage.getItem('playlist-name'))
+                            }}
+                            type="submit">
+                                <Typography
+                                    variant="h5"
+                                    sx={{
+                                        color: '#FFF',
+                                        fontWeight: 450,
+                                        margin: '0'
+                                    }}>
+                                    Done Adding Songs
+                                </Typography>
+                        </Button>  
+                        </Box>
+                        <Box
+                        sx={{
+                            display : 'flex',
+                            flexDirection : 'row',
+                            flexWrap : 'wrap',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}>
+                            <Typography 
+                            sx={{
+                                borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
+                                marginY: '1vh',
+                            }}variant="h5" color="secondary">Share to Collab:</Typography>
+                            <Typography>
+                            {id}&{ownerToken}
+                            </Typography>
+                        </Box>
+                    </div>
+                ) 
+                : 
+                (
+                    <Typography 
+                    sx={{
+                        borderbottom: '2px solid rgba(0, 0, 0, 0.15)',
+                        marginY: '1vh'
+                    }}
+                    variant="h4" color="secondary">No Playlist Has Been Created</Typography>
+                )
+            } 
 
         <Grid 
             item 

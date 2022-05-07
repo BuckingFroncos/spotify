@@ -1,28 +1,13 @@
 import React, { useState} from "react"
-import { Button, Box, Typography, TextField} from "@mui/material"
+import { Button, Box, Typography, TextField, Container, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio} from "@mui/material"
+import { create } from "@mui/material/styles/createTransitions";
 
 
 export default function Home() {
 
-  //const TOKEN = "https://accounts.spotify.com/api/token"
-  //const params = new URLSearchParams(window.location.search);
-  //const code = params.get('code')
-
-  // var client_id = 'b1276abbd1904e0194659f0381e8f6f8'; // Your client id
-  // //var client_secret = '1b81013fb5b447029cd9b1cbe9976c39'; // Your secret
-  // var redirect_uri = 'http://localhost:3000/'; // Your redirect uri
-  // var scopes = 'user-read-private user-read-email playlist-modify-private'
-
-  // const AUTHORIZE = "https://accounts.spotify.com/authorize"
-  // let url = AUTHORIZE;
-  // url += '?client_id=' + client_id
-  // url += "&response_type=code";
-  // url += "&redirect_uri=" + encodeURI(redirect_uri)
-  // url += "&show_dialog=true"
-  // url += "&scope=" + scopes
-
   const [playlist, setPlaylist] = useState();
   const [playlistID, setPlaylistID] = useState();
+  const [mode, setMode] = useState('New_Playlist');
 
   const createPlaylist = () => {
     if(playlist !== undefined && playlist !== ""){
@@ -47,8 +32,6 @@ export default function Home() {
     }
 
   } 
-
-
 
   const collabPlaylist = () => {
     if(playlistID !== undefined && playlistID !== ""){
@@ -77,92 +60,72 @@ export default function Home() {
 
   } 
 
+  const handleSubmit = (e) =>
+  {
+    e.preventDefault()
+    if(mode === "New_Playlist"){
+      createPlaylist()
+    }
+    else if(mode === "Collab_Playlist")
+    {
+      collabPlaylist()
+    }
+  }
 
+  return(
+    <Box
+        component='form'
+        noValidate
+        autoComplete='off'
+        onSubmit={handleSubmit}
+    >
+      <Typography
+        variant="h6"
+        color="secondary"
+        component='h2'
+        gutterBottom
+      >
+        Create a new Playlist or Collab on one
+      </Typography>
 
+      <FormControl>
+        <FormLabel> Creation Mode </FormLabel>
+        <RadioGroup value={mode} onChange={(e) => setMode(e.target.value)}>
+          <FormControlLabel value="New_Playlist" control={<Radio/>} label="New Playlist" />
+          <FormControlLabel value="Collab_Playlist" control={<Radio/>} label="Collab Playlist"/>
+        </RadioGroup> 
+      </FormControl>
 
-  const getContent = () => {
-
-    return (
-      <Box>
-        <TextField
+      <TextField
           sx={{
-            margin: '2vmin',
+            display: 'block',
           }}
           id="Playlist-Field"
-          fullWidth={true}
           variant="outlined"
+          fullWidth
           required
-          label="Enter Playlist Name"
+          label={mode === "New_Playlist" ?  "Enter Playlist Name" :  "Enter Share Token To Start Collabing"}
           onChange={(e) => {
             setPlaylist(e.target.value)
             console.log(e.target.value)
           }}
           color="secondary">
-        </TextField>
-        <Button
-          sx={{
-              padding: '0.6vmax 20vmax',
-              marginX: '10vw',
-          }}
-          fullWidth={false}
-          variant="contained"
-          color="secondary"
-          onClick={createPlaylist}
-          type="submit">
-          <Typography
-              variant="h5"
-              sx={{
-                  color: '#FFF',
-                  fontWeight: 450,
-                  margin: '0'
-              }}>
-              Create Playlist
-          </Typography>
-        </Button>   
-                
-        <TextField
-          sx={{
-              margin: '2vmin',
-          }}
-          id="PlaylistID-Field"
-          fullWidth={true}
-          variant="outlined"
-          required
-          label="Enter Share Token To Start Collabing"
-          onChange={(e) => {
-            setPlaylistID(e.target.value)
-            console.log(e.target.value)
-          }}
-          color="secondary">
-        </TextField>
-        <Button
-          sx={{
-              padding: '0.6vmax 20vmax',
-              marginX: '10vw',
-          }}
-          fullWidth={false}
-          variant="contained"
-          color="secondary"
-          onClick={collabPlaylist}
-          type="submit">
-              <Typography
-                  variant="h5"
-                  sx={{
-                      color: '#FFF',
-                      fontWeight: 450,
-                      margin: '0'
-                  }}>
-                  Retrieve Playlist
-              </Typography>
-          </Button>        
-      </Box>
-    );
-  }
+      </TextField>
 
-  return(
-
-    <div>
-      { getContent() }
-    </div>
+      <Button
+        variant="contained"
+        color="secondary"
+        type="submit"
+      >
+        <Typography
+            variant="h5"
+            sx={{
+                fontWeight: 450,
+                margin: '0',
+            }}>
+            Create Playlist
+        </Typography>
+      </Button>   
+    </Box>
   )
 }

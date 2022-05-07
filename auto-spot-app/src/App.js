@@ -2,23 +2,33 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Home from './pages/Home'
 import Create from './pages/Create'
 import Layout from './components/Layout';
-import { createTheme, ThemeProvider } from '@mui/material';
-import { purple } from '@mui/material/colors';
+import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import DisplayResults from './pages/Search-Results';
 import Login from './pages/Login';
 
 const theme = createTheme({
   palette:{
+    mode: "dark",
     primary:{
-      main: '#fefefe'
+      main: '#424242'
     },
-    secondary: purple
+    secondary: {
+      main: '#b39ddb'
+    }
+  },
+  typography: {
+    fontFamily: 'Quicksand',
+    fontWeightLight: 400,
+    fontWeightRegular: 500,
+    fontWeightMedium: 600,
+    fontWeightBold: 700,
   }
 })
 
 function App() {
   return(
     <ThemeProvider theme={theme}>
+      <CssBaseline/>
       <BrowserRouter>
       <Layout>
           <Routes>

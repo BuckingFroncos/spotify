@@ -106,7 +106,6 @@ export default function Layout({ children }){
             }}
         >
             <AppBar
-                color='primary'
                 sx={{
                     width: `calc(100% - ${drawerWidth}px)`
                 }}
@@ -114,21 +113,23 @@ export default function Layout({ children }){
             >
                 <Toolbar>
                     <Typography
-                        variant="h6"
+                        variant="h4"
                         component="div"
-                        sx={{flexGrow: 1}}
+                        sx={{
+                            flexGrow: 1,
+                        }}
                     >
-                            Welcome to Our Music Automated Collab Tool
+                            Spotify Automated Collab Tool
                     </Typography>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton 
+                        {/* <IconButton 
                             size="large"
                             color="inherit"
                         >
                             <Badge badgeContent={2} color="error">
                                 <PlaylistAddIcon/>
                             </Badge>
-                        </IconButton>
+                        </IconButton> */}
                         <Button color="secondary" onClick={logout}>
                             Log Out
                         </Button>
@@ -150,7 +151,7 @@ export default function Layout({ children }){
                     width: drawerWidth,
                     '& .MuiDrawer-paper':{
                         width: drawerWidth,
-                        boxSizing: 'border-box'
+                        boxSizing: 'border-box',
                     },
                 }}
                 variant="permanent"
@@ -160,8 +161,8 @@ export default function Layout({ children }){
                     <Typography 
                         variant='h5'
                         sx={{
-                            padding: (theme) => theme.spacing(2)
-                        }}   
+                            padding: (theme) => theme.spacing(2),
+                        }}  
                     >
                         Bucking Froncos
                     </Typography>
@@ -180,19 +181,20 @@ export default function Layout({ children }){
                                     navigate(item.path)
                                 }
                             }}
-                            sx={location.pathname === item.path ? {background: '#f4f4f4'} : null}
+                            sx={location.pathname === item.path ? {background: '#212121'} : null}
                         >
                             <ListItemIcon>
                                 {item.icon}
                             </ListItemIcon>
-                            <ListItemText primary={item.text}/>
+                            <ListItemText disableTypography sx={{fontSize: 18 }}>
+                                {item.text}
+                            </ListItemText>
                         </ListItemButton>
                     ))}
                 </List>
             </Drawer>
             <Box 
                 sx={{
-                    background: '#f9f9f9',
                     width: '100%',
                     padding: (theme) => theme.spacing(3)
                 }}
