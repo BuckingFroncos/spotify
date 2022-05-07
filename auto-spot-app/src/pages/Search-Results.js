@@ -1,4 +1,4 @@
-import { Grid, Typography, Card, Box, CardContent, CardMedia, IconButton, Button, ImageListItem, ImageListItemBar, ImageList, Container, ListItemSecondaryAction } from "@mui/material"
+import { Grid, Typography, Card, Box, CardContent, CardMedia, IconButton, Button, ImageListItem, ImageListItemBar, ImageList } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import SearchCard from "../components/SearchCard"
 import { Link, useParams} from "react-router-dom"
@@ -14,10 +14,8 @@ const imageStyle = {
 
 export default function DisplayResults(){
     const [songs, setSongs] = useState({});
-    //const [retrieve, setRetrieve] = useState();
     const [related, setRelated] = useState({})
     const {name, uri} = useParams();
-    const artist = undefined
     const audioStyle = {
         width:'100%',
         background: '#f1f3f4',
@@ -42,7 +40,6 @@ export default function DisplayResults(){
         })
         .then(data => {
             setSongs(data)
-            console.log(data)
         })
         getRelatedArtists()
     }, [])
@@ -75,11 +72,11 @@ export default function DisplayResults(){
         }
 
         fetch(fetchUrl).then(res => {
-            if(res){
+            if(window.sessionStorage.getItem('playlist-id') !== null){
                 alert("Song Has Been Added")
             }
             else{
-                alert("Song was not Added")
+                alert("Song was not Added. Make Sure A Playlist Has Been Created")
             }
         })
 
@@ -97,13 +94,12 @@ export default function DisplayResults(){
             token = window.sessionStorage.getItem('token')
             url = `/addArtist/?token=${token}&name=${playlist}&user=${userID}&artist=${uri}`
         }
-        // const token = window.sessionStorage.getItem('token')
         fetch(url).then(res => {
-            if(res){
+            if(window.sessionStorage.getItem('playlist-id') !== null){
                 alert("Songs Has Been Added")
             }
             else{
-                alert("Song was not Added")
+                alert("Songs were not Added. Make Sure A Playlist Has Been Created")
             }
         })
 
@@ -118,21 +114,7 @@ export default function DisplayResults(){
                     rowSpacing={3}
                     columnSpacing={{xs: 1, sm: 2, md: 3}}
                 >
-                <Button 
-                    sx={{
-                        gridColumn : '1 / 4',
-                        gridRow : '3',
-                        "&:hover" : {
-                            backgroundColor : "#673ab7",
-                            color: 'white'
-                        },
-                        backgroundColor: 'secondary.main'
-                    }} 
-                    fullWidth={true} 
-                    endIcon={<AddCircleOutlineRounded/>} 
-                    onClick={() => {addTopArtistsSongs()}}>
-                    Add {name}'s Top Tracks
-                </Button>
+
                 {Object.keys(songs).map(( key ) =>
                     <Grid
                         item key={key}
@@ -171,6 +153,7 @@ export default function DisplayResults(){
                                     component="img"
                                     sx={{
                                         width: '100%',
+                                        height: '100%',
                                         gridColumn: '3 / 4',
                                         gridRow: '1 / 3',
                                     }}
@@ -203,16 +186,17 @@ export default function DisplayResults(){
             <>
                 {
                     <ImageList
-                        sx={{
-                            display: 'flex',
-                            flexDirection : 'row',
-                            flexWrap : 'wrap',
-                        }}>
+                    gap={5}
+                    cols={4}
+                        >
                             {Object.keys(related).map(( key ) => 
                                 <ImageListItem 
                                     key={key}
                                     sx={{
-                                        maxWidth: "300px",
+                                        borderRadius:'10px 10px 10px 10px',
+                                        "&:hover" : {
+                                            backgroundColor : "#673ab7",
+                                        },
                                     }}
                                 >
                                     <img id="song"
@@ -261,10 +245,39 @@ export default function DisplayResults(){
                     pathname: "/create",
                     state: {input : name},
                     }}>
-                    <IconButton aria-label="back"> 
+                    <IconButton sx={{
+                        boxShadow: '0px 0px 5px #b39ddb',
+                        "&:hover" : {
+                            background: '#121212',
+                            color : 'secondary.main',
+                        }
+
+                    }} 
+                    size="large" 
+                    aria-label="back"> 
                         <ArrowBackRounded/>
                     </IconButton>
                 </Link>
+                {Object.keys(songs).length === 0 ? ('') 
+                : 
+                (
+                    <Button 
+                    sx={{
+                        margin: '10px',
+                        "&:hover" : {
+                            backgroundColor : "#673ab7",
+                            color: 'white'
+                        },
+                        backgroundColor: 'secondary.main'
+                    }} 
+                    fullWidth={true} 
+                    endIcon={<AddCircleOutlineRounded/>} 
+                    onClick={() => {addTopArtistsSongs()}}>
+                    <b>Add {name}'s Top Tracks</b>
+                    </Button>
+                )
+                }
+
             </Box>
 
             <SearchCard
@@ -274,9 +287,15 @@ export default function DisplayResults(){
             
             <Box sx={{padding: 2}}/>
 
-            <SearchCard
+            <SearchCard sx={{padding: '0px'}}
                 header={
-                    <Typography variant="h3" color="secondary" sx={{padding: 3}}>Related Artists: </Typography>
+                    <Typography variant="h3" color="secondary" 
+                        sx={{
+                            paddingTop : 3,
+                            paddingLeft: 3
+                        }}>
+                        Related Artists: 
+                    </Typography>
                 }
                 content={Object.keys(songs).length === 0 ? getDefaultContent() : getRelated() }
             />

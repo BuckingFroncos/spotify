@@ -6,11 +6,15 @@ export default function SearchCard({header, content}){
         <Card
             sx={{
                 width: '100%',
-                borderRadius: '8px'
+                borderRadius: '8px',
             }}
         >
             {header}
-            <CardContent>
+            <CardContent sx={{
+                "&:last-child": {
+                    paddingBottom: 0
+                  }
+            }}>
                 {content}
             </CardContent>
         </Card>

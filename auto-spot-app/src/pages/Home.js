@@ -1,7 +1,5 @@
 import React, { useState} from "react"
-import { Button, Box, Typography, TextField, Container, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio} from "@mui/material"
-import { create } from "@mui/material/styles/createTransitions";
-
+import { Button, Box, Typography, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio} from "@mui/material"
 
 export default function Home() {
 
@@ -16,10 +14,8 @@ export default function Home() {
       console.log(`${token} : ${userID} : ${playlist}`)
       fetch(`Createplaylist/?token=${token}&name=${playlist}&user=${userID}`)
       .then(res => {
-        console.log("HERE")
         return res.json()
       }).then(data => {
-        console.log(data)
         window.sessionStorage.setItem('playlist-id', data['id'])
         window.sessionStorage.setItem('playlist-name', playlist)
         window.sessionStorage.setItem('collabing', false)
@@ -34,30 +30,27 @@ export default function Home() {
   } 
 
   const collabPlaylist = () => {
-    if(playlistID !== undefined && playlistID !== ""){
-      const pl_id  = playlistID.toString()
-      const id = pl_id.split('&')
-      const play = id[0]
-      const owner = id[1]
-      console.log(play)
-      console.log(owner)
-      //const token = window.sessionStorage.getItem('token')
-      fetch(`/collab/?token=${owner}&id=${playlistID}`)
-      .then(res => {
-        if(res.status === 200) return res.text()
-        else {
-          alert(`There is no playlist with the ID: ${playlistID}`)
-        }
-      }).then(data => {
-        console.log(data)
-        window.sessionStorage.setItem('playlist-id', playlistID)
-        window.sessionStorage.setItem('playlist-name', data)
-        window.sessionStorage.setItem('collabOwnerToken', owner)
-        window.sessionStorage.setItem('collabing', true)
-        window.location.href = '/create'
-      })
+    if(playlistID !== undefined && playlistID !== "") {
+    const details = playlistID.toString()
+    const id = details.split('&')
+    const playlist = id[0]
+    const owner = id[1]
+    //const token = window.sessionStorage.getItem('token')
+    fetch(`/collab/?token=${owner}&id=${playlistID}`)
+    .then(res => {
+      if(res.status === 200) return res.text()
+      else {
+        alert(`There is no playlist with the ID: ${playlistID}`)
+      }})
+      .then(data => {
+        if(data !== undefined){
+          window.sessionStorage.setItem('playlist-id', playlist)
+          window.sessionStorage.setItem('playlist-name', data)
+          window.sessionStorage.setItem('collabOwnerToken', owner)
+          window.sessionStorage.setItem('collabing', true)
+          window.location.href = '/create'
+        }})    
     }
-
   } 
 
   const handleSubmit = (e) =>
@@ -85,12 +78,20 @@ export default function Home() {
         component='h2'
         gutterBottom
       >
-        Create a new Playlist or Collab on one
+        Create A New Playlist or Collab On One
       </Typography>
 
-      <FormControl>
-        <FormLabel> Creation Mode </FormLabel>
-        <RadioGroup value={mode} onChange={(e) => setMode(e.target.value)}>
+      <FormControl >
+        <FormLabel sx={{
+          color: 'secondary.main'
+        }}> Creation Mode </FormLabel>
+        <RadioGroup sx={{
+          background: 'secondary.main',
+          color: 'secondary.main'
+        }}
+        value={mode} onChange={(e) => {
+          setMode(e.target.value)
+        }}>
           <FormControlLabel value="New_Playlist" control={<Radio/>} label="New Playlist" />
           <FormControlLabel value="Collab_Playlist" control={<Radio/>} label="Collab Playlist"/>
         </RadioGroup> 
@@ -106,8 +107,13 @@ export default function Home() {
           required
           label={mode === "New_Playlist" ?  "Enter Playlist Name" :  "Enter Share Token To Start Collabing"}
           onChange={(e) => {
-            setPlaylist(e.target.value)
-            console.log(e.target.value)
+            if(mode === "New_Playlist"){
+              setPlaylist(e.target.value)
+              console.log(e.target.value)
+            } else {
+              setPlaylistID(e.target.value)
+              console.log(e.target.value)
+            }
           }}
           color="secondary">
       </TextField>
@@ -116,14 +122,18 @@ export default function Home() {
         variant="contained"
         color="secondary"
         type="submit"
+        sx={{
+          width: '15vw',
+          marginTop: '1vh'
+        }}
       >
         <Typography
             variant="h5"
             sx={{
-                fontWeight: 450,
+                fontWeight: 480,
                 margin: '0',
             }}>
-            Create Playlist
+            {mode === "New_Playlist" ?  'Create Playlist' :  "Find Playlist"}
         </Typography>
       </Button>   
     </Box>

@@ -1,4 +1,4 @@
-import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem} from "@mui/material"
+import { Grid, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem } from "@mui/material"
 import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
@@ -10,12 +10,9 @@ export default function Create() {
     const [info, setInfo] = useState({})
     const [choice, setChoice] = useState('Artist')
     const navigate = useNavigate()
-    const location = useLocation()
     const [playlist, setPlaylist] = useState(window.sessionStorage.getItem('playlist-name'))
     const id =  window.sessionStorage.getItem('playlist-id')
     const ownerToken = window.sessionStorage.getItem('token')
-    console.log(location.state)
-    console.log("Playlist: " + window.sessionStorage.getItem('playlist-id'))
     const imageStyle = {
         borderRadius: '2% 2% 0px 0px',
         objectFit: 'cover',
@@ -148,6 +145,7 @@ export default function Create() {
             {
                 <ImageList
                     gap={15}
+                    cols={3}
                 >
                     {Object.keys(info).map(( key ) => 
                         <ImageListItem 
@@ -171,29 +169,33 @@ export default function Create() {
         </>
     );
 
-    return(
+    return (
 
         <div>
             {
                 playlistCreated(playlist) ? 
                 (
-                    <div>  
+                    <div style={{padding : "0px 0px 10px 0px"}}>  
                         <Box
                         sx={{
                             display : 'flex',
                             flexDirection : 'row',
-                            flexWrap : 'no-wrap',
+                            flexWrap : 'nowrap',
                             justifyContent: 'space-between',
-                            alignItems: 'center',
                         }}>
                         <Typography 
                         sx={{
                             borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
-                            marginY: '1vh',
-                        }}variant="h4" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
+                        }}variant="h6" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
                         <Button
                         sx={{
-                            marginY: '1vh',
+                            marginY: '0',
+                            fontWeight: 800,
+                            "&:hover" : {
+                                backgroundColor : "#673ab7",
+                                color: 'white'
+                            },
+                            backgroundColor: 'secondary.main'
                         }}
                             fullWidth={false}
                             variant="contained"
@@ -204,31 +206,29 @@ export default function Create() {
                                 setPlaylist(window.sessionStorage.getItem('playlist-name'))
                             }}
                             type="submit">
-                                <Typography
-                                    variant="h5"
-                                    sx={{
-                                        color: '#FFF',
-                                        fontWeight: 450,
-                                        margin: '0'
-                                    }}>
-                                    Done Adding Songs
-                                </Typography>
+                            Done Adding Songs
                         </Button>  
                         </Box>
                         <Box
                         sx={{
                             display : 'flex',
-                            flexDirection : 'row',
+                            flexDirection : 'column',
                             flexWrap : 'wrap',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
                         }}>
                             <Typography 
                             sx={{
                                 borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
-                                marginY: '1vh',
-                            }}variant="h5" color="secondary">Share to Collab:</Typography>
-                            <Typography>
+                            }}
+                            variant="h6" 
+                            color="secondary">Share to Collab:</Typography>
+                            <Typography 
+                            sx={{
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                width : '50%',
+                            }}  
+                            variant="p">
                             {id}&{ownerToken}
                             </Typography>
                         </Box>
@@ -241,13 +241,13 @@ export default function Create() {
                         borderbottom: '2px solid rgba(0, 0, 0, 0.15)',
                         marginY: '1vh'
                     }}
-                    variant="h4" color="secondary">No Playlist Has Been Created</Typography>
+                    variant="h6" color="secondary">No Playlist Has Been Created</Typography>
                 )
             } 
 
         <Grid 
             item 
-            xs={12} //Grid width, how much space an item should take based on device's size
+            xs={12}
             sx={{
                 position: 'relative',
             }}

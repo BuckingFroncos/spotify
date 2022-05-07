@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, Avatar, Badge} from '@mui/material'
+import { Drawer, Typography, List, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, Avatar } from '@mui/material'
 import { AddCircleOutlineOutlined, Home } from '@mui/icons-material'
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import { Button } from '@mui/material';
 
-const drawerWidth = 240
+// const drawerWidth = 240, Used width % instead 
 
 export default function Layout({ children }){
     const navigate = useNavigate()
@@ -34,7 +33,6 @@ export default function Layout({ children }){
     }
 
     const logged = () => {
-        console.log(window.location.href)
         if(window.sessionStorage.length !== 0 && window.location.href === 'http://localhost:3000/?code'){
             window.location.href = "/home";
         }
@@ -57,17 +55,17 @@ export default function Layout({ children }){
             }).then(data => {
               let tk = data['access_token']
               window.sessionStorage.setItem("token", tk);
-              console.log(tk)
               fetch(`Logged/?code=${tk}`)
               .then(res => {
                 return res.json()
               }).then(data => {
                 setUserData(data)
-                console.log(data)
-                let image = data['images'][0]['url'] 
-                window.sessionStorage.setItem("account-image", image)
+                if(data['images'].length !== 0) {
+                    let image = data['images'][0]['url'] 
+                    window.sessionStorage.setItem("account-image", image)
+                }
                 window.sessionStorage.setItem("userID", data['id'])
-                window.location.href = "http://localhost:3000/"
+                window.location.href = "http://localhost:3000/home"
               })
             })
       }
@@ -87,10 +85,7 @@ export default function Layout({ children }){
     ]
 
     const getImage = () => {
-        if(Object.keys(userData).length !== 0){
-            return userData['images'][0]['url']
-        }
-        else if(window.sessionStorage.getItem('account-image') !== null){
+        if(window.sessionStorage.getItem('account-image') !== null){
             return window.sessionStorage.getItem('account-image')
         }
 
@@ -107,7 +102,7 @@ export default function Layout({ children }){
         >
             <AppBar
                 sx={{
-                    width: `calc(100% - ${drawerWidth}px)`
+                    width: `calc(100% - 18%)`
                 }}
                 elevation={0}
             >
@@ -117,6 +112,9 @@ export default function Layout({ children }){
                         component="div"
                         sx={{
                             flexGrow: 1,
+                            background: 'linear-gradient(0.50turn, #9944FF, #ddddfd)',
+                            WebkitTextFillColor: 'transparent',
+                            WebkitBackgroundClip: 'text',
                         }}
                     >
                             Spotify Automated Collab Tool
@@ -148,9 +146,9 @@ export default function Layout({ children }){
             </AppBar>
             <Drawer
                 sx={{
-                    width: drawerWidth,
+                    width: '18%',
                     '& .MuiDrawer-paper':{
-                        width: drawerWidth,
+                        width: '18%',
                         boxSizing: 'border-box',
                     },
                 }}
@@ -195,7 +193,7 @@ export default function Layout({ children }){
             </Drawer>
             <Box 
                 sx={{
-                    width: '100%',
+                    width: '82%',
                     padding: (theme) => theme.spacing(3)
                 }}
             >

@@ -22,7 +22,29 @@ const theme = createTheme({
     fontWeightRegular: 500,
     fontWeightMedium: 600,
     fontWeightBold: 700,
+  },
+  components: {
+      MuiFormLabel: {
+        styleOverrides : {
+          root: {
+            "&.Mui-focused": {
+              color: "#b39ddb",
+            }
+          }, 
+        }
+      },
+      MuiRadio: {
+        styleOverrides : {
+          root : {
+            color : '#b39ddb',
+            "&.Mui-checked" : {
+              color : "#b39ddb",
+            }
+          }
+        }
+      },
   }
+
 })
 
 function App() {
