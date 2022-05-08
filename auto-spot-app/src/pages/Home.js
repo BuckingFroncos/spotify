@@ -73,15 +73,21 @@ export default function Home() {
         onSubmit={handleSubmit}
     >
       <Typography
-        variant="h6"
+        variant="h5"
         color="secondary"
         component='h2'
         gutterBottom
+        fontWeight={'Bold'}
       >
         Create A New Playlist or Collab On One
       </Typography>
 
-      <FormControl >
+      <FormControl
+        sx={{
+          paddingTop: 2,
+          paddingBottom: 3
+        }}
+      >
         <FormLabel sx={{
           color: 'secondary.main'
         }}> Creation Mode </FormLabel>
@@ -100,6 +106,7 @@ export default function Home() {
       <TextField
           sx={{
             display: 'block',
+            paddingBottom: 3
           }}
           id="Playlist-Field"
           variant="outlined"

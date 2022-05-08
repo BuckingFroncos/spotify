@@ -186,7 +186,7 @@ export default function DisplayResults(){
             <>
                 {
                     <ImageList
-                    gap={5}
+                    gap={7}
                     cols={4}
                         >
                             {Object.keys(related).map(( key ) => 
@@ -250,8 +250,7 @@ export default function DisplayResults(){
                         "&:hover" : {
                             background: '#121212',
                             color : 'secondary.main',
-                        }
-
+                        },
                     }} 
                     size="large" 
                     aria-label="back"> 
@@ -280,6 +279,8 @@ export default function DisplayResults(){
 
             </Box>
 
+            <Box sx={{padding: 1}}/>
+
             <SearchCard
                 // header={getSongsList()}
                 content={Object.keys(songs).length === 0 ? getDefaultContent() : getContent() }
@@ -289,7 +290,7 @@ export default function DisplayResults(){
 
             <SearchCard sx={{padding: '0px'}}
                 header={
-                    <Typography variant="h3" color="secondary" 
+                    <Typography variant="h3" color="secondary" fontWeight={'Medium'}
                         sx={{
                             paddingTop : 3,
                             paddingLeft: 3

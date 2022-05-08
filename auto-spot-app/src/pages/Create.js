@@ -2,7 +2,7 @@ import { Grid, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageLi
 import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
-import {useLocation, useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import './Create.css'
 
 export default function Create() {

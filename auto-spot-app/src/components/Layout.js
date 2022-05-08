@@ -158,8 +158,12 @@ export default function Layout({ children }){
                 <div>
                     <Typography 
                         variant='h5'
+                        fontWeight={'bold'}
                         sx={{
                             padding: (theme) => theme.spacing(2),
+                            background: 'linear-gradient(0.50turn, #9944FF, #ddddfd)',
+                            WebkitTextFillColor: 'transparent',
+                            WebkitBackgroundClip: 'text',
                         }}  
                     >
                         Bucking Froncos
@@ -184,7 +188,13 @@ export default function Layout({ children }){
                             <ListItemIcon>
                                 {item.icon}
                             </ListItemIcon>
-                            <ListItemText disableTypography sx={{fontSize: 18 }}>
+                            <ListItemText disableTypography 
+                                sx={{
+                                    fontSize: 18, 
+                                    background: 'linear-gradient(0.50turn, #9944FF, #ddddfd)',
+                                    WebkitTextFillColor: 'transparent',
+                                    WebkitBackgroundClip: 'text', 
+                            }}>
                                 {item.text}
                             </ListItemText>
                         </ListItemButton>
