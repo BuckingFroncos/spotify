@@ -1,9 +1,8 @@
-import { Grid, IconButton, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem} from "@mui/material"
-import React, { useRef, useState } from "react"
+import { Grid, Box, Typography, Button, ImageListItem, ImageListItemBar, ImageList, FormControl, InputLabel, Select, MenuItem } from "@mui/material"
+import React, { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import SearchCard from "../components/SearchCard"
-import InfoOutlined from '@mui/icons-material/InfoOutlined'
-import {useLocation, useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import './Create.css'
 
 export default function Create() {
@@ -11,12 +10,9 @@ export default function Create() {
     const [info, setInfo] = useState({})
     const [choice, setChoice] = useState('Artist')
     const navigate = useNavigate()
-    const location = useLocation()
     const [playlist, setPlaylist] = useState(window.sessionStorage.getItem('playlist-name'))
     const id =  window.sessionStorage.getItem('playlist-id')
     const ownerToken = window.sessionStorage.getItem('token')
-    console.log(location.state)
-    console.log("Playlist: " + window.sessionStorage.getItem('playlist-id'))
     const imageStyle = {
         borderRadius: '2% 2% 0px 0px',
         objectFit: 'cover',
@@ -86,8 +82,7 @@ export default function Create() {
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        backgroundColor: '#f5f5f5',
-                        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                        borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
                         paddingLeft: '20px',
                         paddingRight: '20px',
                     }}
@@ -137,7 +132,7 @@ export default function Create() {
             {
                 <Typography 
                     align="center"
-                    sx={{ margin: '40px 16px', color: 'rgba(0, 0, 0, 0.6)', fontSize: '1.3rem'}}
+                    sx={{ margin: '40px 16px',  fontSize: '1.3rem'}}
                 >
                     Nothing found
                 </Typography>
@@ -150,6 +145,7 @@ export default function Create() {
             {
                 <ImageList
                     gap={15}
+                    cols={3}
                 >
                     {Object.keys(info).map(( key ) => 
                         <ImageListItem 
@@ -165,13 +161,6 @@ export default function Create() {
                             />
                             <ImageListItemBar
                                 title={info[key][0]}
-                                actionIcon={
-                                <IconButton
-                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                >
-                                    <InfoOutlined/>
-                                </IconButton>
-                                }
                             />
                         </ImageListItem>
                     )}
@@ -180,86 +169,85 @@ export default function Create() {
         </>
     );
 
-    return(
+    return (
 
         <div>
-                {
-                    playlistCreated(playlist) ? 
-                    (
-                        <div>  
-                            <Box
-                            sx={{
-                                display : 'flex',
-                                flexDirection : 'row',
-                                flexWrap : 'no-wrap',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}>
-                            <Typography 
-                            sx={{
-                                backgroundColor: '#f5f5f5',
-                                borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
-                                marginY: '1vh',
-                            }}variant="h4" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
-                            <Button
-                            sx={{
-                                marginY: '1vh',
-                            }}
-                                fullWidth={false}
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => {
-                                    window.sessionStorage.removeItem('playlist-id')
-                                    window.sessionStorage.removeItem('playlist-name')
-                                    setPlaylist(window.sessionStorage.getItem('playlist-name'))
-                                }}
-                                type="submit">
-                                    <Typography
-                                        variant="h5"
-                                        sx={{
-                                            color: '#FFF',
-                                            fontWeight: 450,
-                                            margin: '0'
-                                        }}>
-                                        Done Adding Songs
-                                    </Typography>
-                            </Button>  
-                            </Box>
-                            <Box
-                            sx={{
-                                display : 'flex',
-                                flexDirection : 'row',
-                                flexWrap : 'wrap',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}>
-                                <Typography 
-                                sx={{
-                                    backgroundColor: '#f5f5f5',
-                                    borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
-                                    marginY: '1vh',
-                                }}variant="h5" color="secondary">Share to Collab:</Typography>
-                                <Typography>
-                                {id}&{ownerToken}
-                                </Typography>
-                            </Box>
-                        </div>
-                    ) 
-                    : 
-                    (
+            {
+                playlistCreated(playlist) ? 
+                (
+                    <div style={{padding : "0px 0px 10px 0px"}}>  
+                        <Box
+                        sx={{
+                            display : 'flex',
+                            flexDirection : 'row',
+                            flexWrap : 'nowrap',
+                            justifyContent: 'space-between',
+                        }}>
                         <Typography 
                         sx={{
-                            backgroundColor: '#f5f5f5',
-                            borderbottom: '2px solid rgba(0, 0, 0, 0.15)',
-                            marginY: '1vh'
+                            borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
+                        }}variant="h6" color="secondary">Now Adding Songs to Playlist: {playlist}</Typography>
+                        <Button
+                        sx={{
+                            marginY: '0',
+                            fontWeight: 800,
+                            "&:hover" : {
+                                backgroundColor : "#673ab7",
+                                color: 'white'
+                            },
+                            backgroundColor: 'secondary.main'
                         }}
-                        variant="h4" color="secondary">No Playlist Has Been Created</Typography>
-                    )
-                } 
+                            fullWidth={false}
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {
+                                window.sessionStorage.removeItem('playlist-id')
+                                window.sessionStorage.removeItem('playlist-name')
+                                setPlaylist(window.sessionStorage.getItem('playlist-name'))
+                            }}
+                            type="submit">
+                            Done Adding Songs
+                        </Button>  
+                        </Box>
+                        <Box
+                        sx={{
+                            display : 'flex',
+                            flexDirection : 'column',
+                            flexWrap : 'wrap',
+                        }}>
+                            <Typography 
+                            sx={{
+                                borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
+                            }}
+                            variant="h6" 
+                            color="secondary">Share to Collab:</Typography>
+                            <Typography 
+                            sx={{
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                width : '50%',
+                            }}  
+                            variant="p">
+                            {id}&{ownerToken}
+                            </Typography>
+                        </Box>
+                    </div>
+                ) 
+                : 
+                (
+                    <Typography 
+                    sx={{
+                        borderbottom: '2px solid rgba(0, 0, 0, 0.15)',
+                        marginY: '1vh'
+                    }}
+                    variant="h6" color="secondary">No Playlist Has Been Created</Typography>
+                )
+            } 
 
         <Grid 
             item 
-            xs={12} //Grid width, how much space an item should take based on device's size
+            xs={12}
             sx={{
                 position: 'relative',
             }}
